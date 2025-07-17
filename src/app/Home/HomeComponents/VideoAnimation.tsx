@@ -97,7 +97,7 @@ function VideoAnimation() {
             loop
             muted
             playsInline
-            className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-0 h-[40%] md:h-[85%] object-cover transition-all duration-[2000ms] ease-out'
+            className='absolute inset-0 w-full h-full object-cover z-0 transition-all duration-[2000ms] ease-out'
             style={sectionVisibility.design ? getVideoTransform(0) : { opacity: 0, transform: 'scale(0.8) translateY(100px)' }}
           >
             <source src='/videos/butterfly.mp4' type='video/mp4' />
@@ -143,7 +143,7 @@ function VideoAnimation() {
             loop
             muted
             playsInline
-            className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-0 h-[40%] md:h-[85%] object-cover transition-all duration-[2000ms] ease-out'
+            className='absolute inset-0 w-full h-full object-cover z-0 transition-all duration-[2000ms] ease-out'
             style={sectionVisibility.build ? getVideoTransform(1) : { opacity: 0, transform: 'scale(0.8) translateY(100px)' }}
           >
             <source src='/videos/build.mp4' type='video/mp4' />
@@ -190,7 +190,7 @@ function VideoAnimation() {
             loop
             muted
             playsInline
-            className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-0 h-[40%] md:h-[85%] object-cover transition-all duration-[2000ms] ease-out'
+            className='absolute inset-0 w-full h-full object-cover z-0 transition-all duration-[2000ms] ease-out'
             style={sectionVisibility.market ? getVideoTransform(2) : { opacity: 0, transform: 'scale(0.8) translateY(100px)' }}
           >
             <source src='/videos/market.mp4' type='video/mp4' />
