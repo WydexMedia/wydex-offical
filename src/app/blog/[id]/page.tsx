@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation';
 
+type PageProps = { params: { id: string } };
+
 async function getBlog(id: string) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/api/blogs`, { cache: 'no-store' });
   if (!res.ok) return null;
@@ -7,7 +9,7 @@ async function getBlog(id: string) {
   return blogs.find((b: any) => b._id === id);
 }
 
-export default async function BlogDetailPage({ params }: { params: { id: string } }) {
+export default async function BlogDetailPage({ params }: PageProps) {
   const blog = await getBlog(params.id);
 
   if (!blog) return notFound();

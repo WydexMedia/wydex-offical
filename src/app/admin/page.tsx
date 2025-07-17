@@ -37,6 +37,8 @@ export default function AdminPage() {
   const [blogMsg, setBlogMsg] = useState('');
   const [editBlog, setEditBlog] = useState<any | null>(null);
   const [deleteBlogId, setDeleteBlogId] = useState<string | null>(null);
+  // Add this state for step control
+  const [blogStep, setBlogStep] = useState(1);
 
   useEffect(() => {
     // Persist login state using localStorage
@@ -149,9 +151,28 @@ export default function AdminPage() {
     }
   };
 
+  // Helper to check if Tiptap HTML is empty
+  const isContentEmpty = (html: string) => {
+    if (!html) return true;
+    // Remove all tags and whitespace
+    const cleaned = html.replace(/<(.|\n)*?>/g, '').replace(/&nbsp;/g, '').trim();
+    return (
+      cleaned === '' ||
+      html === '<p></p>' ||
+      html === '<p><br></p>' ||
+      html === '<p> </p>'
+    );
+  };
+
   const handleAddBlog = async (e: React.FormEvent) => {
     e.preventDefault();
     setBlogMsg('');
+
+    if (!blogTitle.trim() || !blogDesc.trim() || isContentEmpty(blogContent)) {
+      setBlogMsg('Please fill in all required fields and add blog content.');
+      return;
+    }
+
     const res = await fetch('/api/blogs', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -339,18 +360,38 @@ export default function AdminPage() {
         {activeTab === 'blogs' && (
           <div>
             <h2 className="text-xl font-semibold mb-4">Blogs</h2>
-            {/* Add Blog Form */}
-            <form onSubmit={editBlog ? handleEditBlogSubmit : handleAddBlog} className="mb-10 space-y-4">
-              <input type="text" placeholder="Blog Title (h1)" value={blogTitle} onChange={e => setBlogTitle(e.target.value)} className="w-full px-4 py-2 border rounded-lg" required />
-              <textarea placeholder="Short Description" value={blogDesc} onChange={e => setBlogDesc(e.target.value)} className="w-full px-4 py-2 border rounded-lg" required />
-              <input type="text" placeholder="Image URL" value={blogImage} onChange={e => setBlogImage(e.target.value)} className="w-full px-4 py-2 border rounded-lg" />
-              <div>
-                <label className="block font-semibold mb-1">Content</label>
-                <BlogEditor value={blogContent} onChange={setBlogContent} />
-              </div>
-              <button type="submit" className="bg-black text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-900 transition">{editBlog ? 'Save Changes' : 'Add Blog'}</button>
-              {blogMsg && <div className="mt-2 text-green-600">{blogMsg}</div>}
-            </form>
+            {/* Add Blog Form - Step 1: Card Details */}
+            {blogStep === 1 && (
+              <form onSubmit={e => {
+                e.preventDefault();
+                if (!blogTitle.trim() || !blogDesc.trim()) {
+                  setBlogMsg('Please fill in all required fields.');
+                  return;
+                }
+                setBlogMsg('');
+                setBlogStep(2);
+              }} className="mb-10 space-y-4">
+                <input type="text" placeholder="Blog Title (h1)" value={blogTitle} onChange={e => setBlogTitle(e.target.value)} className="w-full px-4 py-2 border rounded-lg" required />
+                <textarea placeholder="Short Description" value={blogDesc} onChange={e => setBlogDesc(e.target.value)} className="w-full px-4 py-2 border rounded-lg" required />
+                <input type="text" placeholder="Image URL" value={blogImage} onChange={e => setBlogImage(e.target.value)} className="w-full px-4 py-2 border rounded-lg" />
+                <button type="submit" className="bg-black text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-900 transition">Next</button>
+                {blogMsg && <div className="mt-2 text-green-600">{blogMsg}</div>}
+              </form>
+            )}
+            {/* Add Blog Form - Step 2: Blog Content */}
+            {blogStep === 2 && (
+              <form onSubmit={handleAddBlog} className="mb-10 space-y-4">
+                <div>
+                  <label className="block font-semibold mb-1">Content</label>
+                  <BlogEditor value={blogContent} onChange={setBlogContent} />
+                </div>
+                <div className="flex gap-2">
+                  <button type="button" onClick={() => setBlogStep(1)} className="bg-gray-300 text-black px-6 py-2 rounded-lg font-semibold hover:bg-gray-400 transition">Back</button>
+                  <button type="submit" className="bg-black text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-900 transition">Save Blog</button>
+                </div>
+                {blogMsg && <div className="mt-2 text-green-600">{blogMsg}</div>}
+              </form>
+            )}
             {/* Blog List */}
             <div>
               <h3 className="text-lg font-semibold mb-2">All Blogs</h3>
