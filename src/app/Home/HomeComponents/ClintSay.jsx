@@ -5,19 +5,19 @@ const testimonials = [
     quote: `"Wydex Media’s expertise and dedication helped us scale Interval to new heights. Their team truly feels like an extension of ours."`,
     name: 'Aslah Thadathil',
     role: 'Co-founder of Interval',
-    image: '/images/interval.webp',
+    image: './images/aslah.png',
   },
   {
     quote: `"The team at Wydex is proactive, professional, and always delivers more than expected. Highly recommended!"`,
     name: 'Muhammed Arshad',
     role: 'COO Magic Lambs',
-    image: '/images/interval.webp',
+    image: '/images/arshad.jpeg',
   },
   {
     quote: `"From branding to digital marketing, Wydex Media is our go-to partner for growth and innovation."`,
-    name: '',
-    role: '',
-    image: '/images/interval.webp',
+    name: 'Fazil',
+    role: 'proprietor of parcel service calicut',
+    image: '/images/fazil.jpeg',
   },
 ];
 
