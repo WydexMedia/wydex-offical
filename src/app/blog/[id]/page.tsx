@@ -1,9 +1,15 @@
 import { notFound } from 'next/navigation';
+import { headers } from 'next/headers';
 
 type PageProps = { params: { id: string } };
 
 async function getBlog(id: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/api/blogs`, { cache: 'no-store' });
+  const headersList = await headers();
+  const host = headersList.get('host');
+  const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+  const baseUrl = `${protocol}://${host}`;
+
+  const res = await fetch(`${baseUrl}/api/blogs`, { cache: 'no-store' });
   if (!res.ok) return null;
   const blogs = await res.json();
   return blogs.find((b: any) => b._id === id);
