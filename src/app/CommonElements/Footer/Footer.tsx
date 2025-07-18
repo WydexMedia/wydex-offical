@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import { Phone, Mail, MessageCircle, Twitter, Linkedin, Instagram, Facebook } from 'lucide-react';
+import Image from 'next/image';
 
 function FooterPage() {
   return (
@@ -18,9 +19,11 @@ function FooterPage() {
           <div className="lg:col-span-1 space-y-6">
             <div className="flex flex-col items-center text-center space-y-4">
               <div className="h-14 flex justify-center items-center">
-                <img
+                <Image
                   src="/images/wydex-whitelogo.png"
                   alt="Wydex Logo"
+                  width={50}
+                  height={50}
                   className="h-12 md:h-14 w-auto object-contain transition-transform duration-300 hover:scale-105"
                 />
               </div>

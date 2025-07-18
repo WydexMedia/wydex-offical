@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const clientLogos = [
   { src: 'wydex Clinets black/ATHER  best digital marketing agency in calicut.webp', alt: 'Ather' },
@@ -42,9 +42,11 @@ export default function Clients() {
                 key={index}
                 className="group flex items-center justify-center p-6 bg-gray-50 rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-lg transition-all duration-300 hover:scale-105"
               >
-                <img
+                <Image
                   src={logo.src}
                   alt={logo.alt}
+                  width={150}
+                  height={50}
                   className="max-h-12 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
                 />
               </div>

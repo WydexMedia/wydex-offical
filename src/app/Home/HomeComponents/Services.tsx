@@ -1,7 +1,6 @@
 import React from 'react';
 import {
-  TrendingUp, Search, Palette, Target, Users,
-  BarChart3, Globe, Zap
+  Search, Palette, Target, Users
 } from 'lucide-react';
 
 const numberColors = ["text-blue-600", "text-purple-600", "text-pink-600", "text-green-600"];

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Calendar, User } from 'lucide-react';
+import Image from 'next/image';
 
 // Add BlogPost type for type safety
 interface BlogPost {
@@ -77,9 +78,11 @@ function BottomBar() {
                   className={`${index === 0 && 'ml-5'} flex-shrink-0 w-80 bg-gray-900 overflow-hidden shadow-lg hover:shadow-xl transition-transform duration-300 hover:scale-105 border-gray-800`}
                 >
                   <div className="relative overflow">
-                    <img
+                    <Image
                       src={post.image || '/images/default.jpg'}
                       alt={post.title}
+                      width={320}
+                      height={192}
                       className="w-full h-48 object-cover hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-black/40"></div>

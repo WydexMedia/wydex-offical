@@ -88,7 +88,7 @@ export default function CareerPage() {
         method: 'POST',
         body: formData,
       });
-      const data = await res.json();
+      const data: { success: boolean; message?: string } = await res.json();
       if (data.success) {
         setFormMsg('Application submitted!');
         setTimeout(() => handleCloseModal(), 1500);

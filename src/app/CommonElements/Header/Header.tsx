@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useRouter } from 'next/navigation'
+import Link from 'next/link';
+import Image from 'next/image';
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,13 +61,15 @@ function Header() {
         <div className="flex justify-between items-center h-16 md:h-20">
           
           {/* Logo */}
-          <a href="/" className="flex items-center space-x-2 group">
-            <img
+          <Link href="/" className="flex items-center space-x-2 group">
+            <Image
               src="/images/wydex-whitelogo.png"
               alt="Wydex Logo"
+              width={32}
+              height={32}
               className="h-8 sm:h-10 md:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
             />
-          </a>
+          </Link>
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-2 lg:space-x-4">

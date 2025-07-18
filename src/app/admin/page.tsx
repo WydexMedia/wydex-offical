@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 const BlogEditor = dynamic(() => import('./BlogEditor'), { ssr: false });
 // import 'react-quill/dist/quill.snow.css';
 
@@ -401,7 +402,7 @@ export default function AdminPage() {
                     <div>
                       <div className="font-bold text-lg">{blog.title}</div>
                       <div className="text-gray-700">{blog.description}</div>
-                      {blog.image && <img src={blog.image} alt="Blog" className="w-32 h-20 object-cover rounded mt-2" />}
+                      {blog.image && <Image src={blog.image} alt="Blog" width={128} height={80} className="w-32 h-20 object-cover rounded mt-2" />}
                     </div>
                     <div className="flex gap-2 mt-2 md:mt-0">
                       <button onClick={() => handleEditBlog(blog)} className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Edit</button>

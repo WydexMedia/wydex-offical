@@ -1,5 +1,6 @@
 import React from "react";
 import AppShell from "../layout";
+import Image from 'next/image';
 
 interface CaseStudy {
   title: string;
@@ -78,9 +79,11 @@ export default function Page() {
             >
               {/* Image Box with overlay fade */}
               <div className="relative overflow-hidden mb-6  border border-gray-200  transition-all duration-500">
-                <img
+                <Image
                   src={member.image}
                   alt={member.title}
+                  width={400}
+                  height={280}
                   className="w-full h-80 object-cover transform   transition-transform duration-700 ease-out "
                 />
                 </div>
