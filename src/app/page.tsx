@@ -2,7 +2,7 @@
 
 import Index from "./Home/Home";
 import AppShell from "./AppShell";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from 'next/navigation';
 
 function EnquiryForm({ onSuccess }: { onSuccess?: () => void }) {
@@ -53,7 +53,7 @@ function EnquiryForm({ onSuccess }: { onSuccess?: () => void }) {
   );
 }
 
-export default function HomePage() {
+function HomePageContent() {
   const [showModal, setShowModal] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -90,5 +90,13 @@ export default function HomePage() {
       )}
       <Index/> 
     </AppShell>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomePageContent />
+    </Suspense>
   );
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const clientLogos = [
   { src: 'wydex Clinets black/ATHER  best digital marketing agency in calicut.webp', alt: 'Ather' },

@@ -2,6 +2,16 @@ import { notFound } from 'next/navigation';
 import { headers } from 'next/headers';
 import Image from 'next/image';
 
+interface Blog {
+  _id: string;
+  title: string;
+  author?: string;
+  createdAt?: string;
+  image?: string;
+  description?: string;
+  content: string;
+}
+
 async function getBlog(id: string) {
   const headersList = await headers();
   const host = headersList.get('host');
@@ -10,8 +20,8 @@ async function getBlog(id: string) {
 
   const res = await fetch(`${baseUrl}/api/blogs`, { cache: 'no-store' });
   if (!res.ok) return null;
-  const blogs = await res.json();
-  return blogs.find((b: any) => b._id === id);
+  const blogs: Blog[] = await res.json();
+  return blogs.find((b) => b._id === id);
 }
 
 export default async function BlogDetailPage({ params }: { params: Promise<{ id: string }> }) {
