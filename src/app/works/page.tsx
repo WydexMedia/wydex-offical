@@ -148,7 +148,7 @@ export default function Page() {
                 Want to join our team?
               </h2>
               <p className="text-gray-600 text-lg transition-colors duration-300">
-                We're always looking for talented individuals to join our creative family.
+                We&apos;re always looking for talented individuals to join our creative family.
               </p>
             </div>
             <button className="bg-black text-white px-8 py-3 text-sm uppercase tracking-widest rounded-full hover:bg-gray-800 transition-colors duration-300">

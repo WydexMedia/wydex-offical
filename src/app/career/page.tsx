@@ -2,10 +2,19 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { PaperClipIcon } from '@heroicons/react/24/outline';
 import AppShell from "../AppShell";
+type Job = {
+  _id: string;
+  title: string;
+  description: string;
+  location?: string;
+  department?: string;
+  requirements?: string[]; // if you're planning to use it later
+};
+
 
 export default function CareerPage() {
   const openingsRef = useRef<HTMLDivElement>(null);
-  const [jobs, setJobs] = useState<any[]>([]);
+  const [jobs, setJobs] = useState<Job[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [applyingJob, setApplyingJob] = useState<string | null>(null);
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '', resume: null as File | null });
@@ -20,9 +29,10 @@ export default function CareerPage() {
 
   const fetchJobs = async () => {
     const res = await fetch('/api/admin/jobs');
-    const data = await res.json();
+    const data: Job[] = await res.json();
     setJobs(data);
   };
+  
 
   const handleScrollToOpenings = () => {
     if (openingsRef.current) {
@@ -86,6 +96,7 @@ export default function CareerPage() {
         setFormMsg(data.message || 'Submission failed.');
       }
     } catch (err) {
+      console.error(err);
       setFormMsg('Submission failed.');
     }
     setFormLoading(false);

@@ -31,6 +31,7 @@ function EnquiryForm({ onSuccess }: { onSuccess?: () => void }) {
         setError(data.message || 'Submission failed');
       }
     } catch (err) {
+      console.error(err);
       setError('Submission failed. Please try again later.');
     }
     setLoading(false);
