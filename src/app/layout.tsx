@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Wydex media",
-  description: "Best digital marketing agency in calicut",
+  title: "Wydex mediaaaa",
+  description: "Best digital marketing agency in calicutt",
 };
 
 export default function RootLayout({children}: Readonly<{ children: React.ReactNode;}>) {
