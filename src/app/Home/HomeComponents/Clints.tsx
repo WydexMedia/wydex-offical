@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 const clientLogos = [
   { src: 'wydex Clinets black/ATHER  best digital marketing agency in calicut.webp', alt: 'Ather' },
@@ -19,6 +20,7 @@ const clientLogos = [
 ];
 
 export default function Clients() {
+  const router = useRouter();
   return (
     <section className="bg-white py-20 px-4 sm:px-6 lg:px-8 ">
       <div className="max-w-7xl mx-auto">
@@ -54,6 +56,7 @@ export default function Clients() {
         <div className="text-center">
           <button
             type="button"
+            onClick={() => router.push('/Home/listClients')}
             className="
       group cursor-pointer
       inline-flex flex-col items-center justify-center

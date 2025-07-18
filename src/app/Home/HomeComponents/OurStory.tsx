@@ -27,7 +27,8 @@ const OurStory = () => {
           </p>
           <button
            
-            className="hover:cursor-pointer inline-block bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-500 transition duration-300"
+           className="learn-more group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-400/40 rounded-xl text-white text-lg font-medium hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-400/60 transition-all duration-500 backdrop-blur-sm shadow-lg shadow-purple-400/20 hover:shadow-purple-400/30 transform hover:scale-105"
+                style={{ transitionDelay: '0.6s' }}
           >
             About Us
           </button>

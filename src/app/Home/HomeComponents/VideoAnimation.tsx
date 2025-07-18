@@ -100,7 +100,7 @@ function VideoAnimation() {
             className='absolute inset-0 w-full h-full object-cover z-0 transition-all duration-[2000ms] ease-out'
             style={sectionVisibility.design ? getVideoTransform(0) : { opacity: 0, transform: 'scale(0.8) translateY(100px)' }}
           >
-            <source src='/videos/butterfly.mp4' type='video/mp4' />
+            <source src='/videos/build.mp4' type='video/mp4' />
             Your browser does not support the video tag.
           </video>
         </div>
@@ -113,7 +113,7 @@ function VideoAnimation() {
               style={sectionVisibility.design ? getScrollTransform(0) : { opacity: 0, transform: 'scale(0.7) translateY(150px)' }}
             >
               <h3 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight relative">
-                <span className="relative z-10">Design</span>
+                <span className="relative z-10">Ｓｔｒａｔｅｇｙ</span>
                 </h3>
               <p className="text-lg sm:text-xl md:text-2xl text-blue-200 max-w-3xl mx-auto mb-8 leading-relaxed transition-all duration-1000 ease-out" style={{ transitionDelay: '0.3s' }}>
                 Creativity meets logic. Every interface we craft begins with a design rooted in clarity, beauty, and purpose.
@@ -146,7 +146,7 @@ function VideoAnimation() {
             className='absolute inset-0 w-full h-full object-cover z-0 transition-all duration-[2000ms] ease-out'
             style={sectionVisibility.build ? getVideoTransform(1) : { opacity: 0, transform: 'scale(0.8) translateY(100px)' }}
           >
-            <source src='/videos/build.mp4' type='video/mp4' />
+            <source src='/videos/market.mp4' type='video/mp4' />
             Your browser does not support the video tag.
           </video>
         </div>
@@ -159,7 +159,7 @@ function VideoAnimation() {
               style={sectionVisibility.build ? getScrollTransform(1) : { opacity: 0, transform: 'scale(0.7) translateY(150px)' }}
             >
               <h3 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight relative">
-                <span className="relative z-10">Build</span>
+                <span className="relative z-10">Ｅｘｅｃｕｔｉｏｎ</span>
                 <div className="absolute -inset-1 bg-gradient-to-r from-green-400/10 to-teal-400/10 blur-lg opacity-30 animate-pulse" style={{ animationDelay: '0.5s' }}></div> 
               </h3>
               <p className="text-lg sm:text-xl md:text-2xl text-green-200 max-w-3xl mx-auto mb-8 leading-relaxed transition-all duration-1000 ease-out" style={{ transitionDelay: '0.3s' }}>
@@ -193,7 +193,7 @@ function VideoAnimation() {
             className='absolute inset-0 w-full h-full object-cover z-0 transition-all duration-[2000ms] ease-out'
             style={sectionVisibility.market ? getVideoTransform(2) : { opacity: 0, transform: 'scale(0.8) translateY(100px)' }}
           >
-            <source src='/videos/market.mp4' type='video/mp4' />
+            <source src='/videos/butterfly.mp4' type='video/mp4' />
             Your browser does not support the video tag.
           </video>
         </div>
@@ -206,7 +206,7 @@ function VideoAnimation() {
               style={sectionVisibility.market ? getScrollTransform(2) : { opacity: 0, transform: 'scale(0.7) translateY(150px)' }}
             >
               <h3 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight relative">
-                <span className="relative z-10">Market</span>
+                <span className="relative z-10">Ｇｒｏｗｔｈ</span>
                 </h3>
               <p className="text-lg sm:text-xl md:text-2xl text-purple-200 max-w-3xl mx-auto mb-8 leading-relaxed transition-all duration-1000 ease-out" style={{ transitionDelay: '0.3s' }}>
                 Launch with impact. We help you bring your product to the right audience, with strategy, clarity, and innovation.
