@@ -2,16 +2,6 @@ import { notFound } from 'next/navigation';
 import { headers } from 'next/headers';
 import Image from 'next/image';
 
-interface Blog {
-  _id: string;
-  title: string;
-  author?: string;
-  createdAt?: string;
-  image?: string;
-  description?: string;
-  content: string;
-}
-
 async function getBlog(id: string) {
   const headersList = await headers();
   const host = headersList.get('host');
@@ -24,9 +14,9 @@ async function getBlog(id: string) {
   return blogs.find((b: any) => b._id === id);
 }
 
-
-export default async function BlogDetailPage({ params }: { params: { id: string } }) {
-  const blog = await getBlog(params.id);
+export default async function BlogDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const blog = await getBlog(id);
 
   if (!blog) return notFound();
 
@@ -54,4 +44,4 @@ export default async function BlogDetailPage({ params }: { params: { id: string 
       />
     </main>
   );
-} 
+}

@@ -81,7 +81,7 @@ function About() {
                             
                             <p className="text-gray-700 mb-6 sm:mb-8 text-sm sm:text-base lg:text-lg leading-relaxed">
                                 Google Ads helps you connect with customers who are already looking for your product or service.
-                                When someone types a keyword into Google Search, your ad appears right when they're ready to make a decision.
+                                When someone types a keyword into Google Search, your ad appears right when they&apos;re ready to make a decision.
                             </p>
 
                             {/* Best For Section */}
@@ -151,7 +151,7 @@ function About() {
                             
                             <p className="text-gray-700 mb-6 sm:mb-8 text-sm sm:text-base lg:text-lg leading-relaxed">
                                 Meta Ads display across Facebook, Instagram, Messenger, and the Audience Network.
-                                These ads target users based on interests, behavior, age, location, and more — even when they aren't searching for your product.
+                                These ads target users based on interests, behavior, age, location, and more — even when they aren&apos;t searching for your product.
                             </p>
 
                             {/* Best For Section */}
@@ -216,7 +216,7 @@ function About() {
                             </div>
                         </div>
                         <p className="text-gray-600 text-sm sm:text-base">
-                            Let's discuss which advertising platform aligns best with your business goals
+                            Let&apos;s discuss which advertising platform aligns best with your business goals
                         </p>
                     </div>
                 </div>

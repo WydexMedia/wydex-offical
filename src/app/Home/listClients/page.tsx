@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import React from 'react';
 const clientLogos = [
   { src: '/wydex Clinets black/ATHER  best digital marketing agency in calicut.webp', alt: 'Ather' },
@@ -34,8 +34,7 @@ const clientLogos = [
   { src: '/wydex Clinets black/ZOOTY  best digital marketing agency in calicut.webp', alt: 'Zooty' },
 ];
 
-export default function listClients() {
-    const router = useRouter();
+export default function ListClients() {
   return (
     <section className="bg-white py-20 px-4 sm:px-6 lg:px-8 ">
       <div className="max-w-7xl mx-auto">
@@ -57,7 +56,7 @@ export default function listClients() {
                 key={index}
                 className="group flex items-center justify-center p-6 bg-gray-50 rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-lg transition-all duration-300 hover:scale-105"
               >
-                <img
+                <Image
                   src={logo.src}
                   alt={logo.alt}
                   className="max-h-12 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"

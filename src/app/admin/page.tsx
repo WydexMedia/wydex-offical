@@ -3,7 +3,41 @@ import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 const BlogEditor = dynamic(() => import('./BlogEditor'), { ssr: false });
-// import 'react-quill/dist/quill.snow.css';
+
+// Define proper interfaces instead of using 'any'
+interface Job {
+  _id: string;
+  title: string;
+  description: string;
+  createdAt?: string;
+}
+
+interface Enquiry {
+  _id: string;
+  name: string;
+  email: string;
+  message: string;
+  phone?: string;
+  createdAt?: string;
+}
+
+interface Application {
+  _id: string;
+  name: string;
+  email: string;
+  jobRole: string;
+  resume: string;
+  createdAt?: string;
+}
+
+interface Blog {
+  _id: string;
+  title: string;
+  description: string;
+  image?: string;
+  content: string;
+  createdAt?: string;
+}
 
 export default function AdminPage() {
   const [username, setUsername] = useState('');
@@ -11,32 +45,32 @@ export default function AdminPage() {
   const [error, setError] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
 
-  // Job management
-  const [jobs, setJobs] = useState<any[]>([]);
+  // Job management - Replace any[] with Job[]
+  const [jobs, setJobs] = useState<Job[]>([]);
   const [jobTitle, setJobTitle] = useState('');
   const [jobDesc, setJobDesc] = useState('');
   const [jobMsg, setJobMsg] = useState('');
 
-  // Enquiries
-  const [enquiries, setEnquiries] = useState<any[]>([]);
-  const [editJob, setEditJob] = useState<any | null>(null);
+  // Enquiries - Replace any[] with Enquiry[]
+  const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
+  const [editJob, setEditJob] = useState<Job | null>(null);
   const [editTitle, setEditTitle] = useState('');
   const [editDesc, setEditDesc] = useState('');
   const [deleteJobId, setDeleteJobId] = useState<string | null>(null);
 
-  // Applications
-  const [applications, setApplications] = useState<any[]>([]);
+  // Applications - Replace any[] with Application[]
+  const [applications, setApplications] = useState<Application[]>([]);
   const [appFilter, setAppFilter] = useState('');
   const [activeTab, setActiveTab] = useState<'jobs' | 'applications' | 'enquiries' | 'blogs'>('jobs');
 
-  // Blog state
-  const [blogs, setBlogs] = useState<any[]>([]);
+  // Blog state - Replace any[] with Blog[]
+  const [blogs, setBlogs] = useState<Blog[]>([]);
   const [blogTitle, setBlogTitle] = useState('');
   const [blogDesc, setBlogDesc] = useState('');
   const [blogImage, setBlogImage] = useState('');
   const [blogContent, setBlogContent] = useState('');
   const [blogMsg, setBlogMsg] = useState('');
-  const [editBlog, setEditBlog] = useState<any | null>(null);
+  const [editBlog, setEditBlog] = useState<Blog | null>(null);
   const [deleteBlogId, setDeleteBlogId] = useState<string | null>(null);
   // Add this state for step control
   const [blogStep, setBlogStep] = useState(1);
@@ -63,25 +97,25 @@ export default function AdminPage() {
 
   const fetchJobs = async () => {
     const res = await fetch('/api/admin/jobs');
-    const data = await res.json();
+    const data: Job[] = await res.json();
     setJobs(data);
   };
 
   const fetchEnquiries = async () => {
     const res = await fetch('/api/enquiry');
-    const data = await res.json();
+    const data: Enquiry[] = await res.json();
     setEnquiries(data);
   };
 
   const fetchApplications = async () => {
     const res = await fetch('/api/career/applications');
-    const data = await res.json();
+    const data: Application[] = await res.json();
     setApplications(data);
   };
 
   const fetchBlogs = async () => {
     const res = await fetch('/api/blogs');
-    const data = await res.json();
+    const data: Blog[] = await res.json();
     setBlogs(data);
   };
 
@@ -120,11 +154,12 @@ export default function AdminPage() {
     }
   };
 
-  const handleEditJob = (job: any) => {
+  const handleEditJob = (job: Job) => {
     setEditJob(job);
     setEditTitle(job.title);
     setEditDesc(job.description);
   };
+
   const handleEditSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editJob) return;
@@ -139,6 +174,7 @@ export default function AdminPage() {
       fetchJobs();
     }
   };
+
   const handleDeleteJob = async (id: string) => {
     const res = await fetch('/api/admin/jobs', {
       method: 'DELETE',
@@ -192,13 +228,14 @@ export default function AdminPage() {
     }
   };
 
-  const handleEditBlog = (blog: any) => {
+  const handleEditBlog = (blog: Blog) => {
     setEditBlog(blog);
     setBlogTitle(blog.title);
     setBlogDesc(blog.description);
-    setBlogImage(blog.image);
+    setBlogImage(blog.image || '');
     setBlogContent(blog.content);
   };
+
   const handleEditBlogSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editBlog) return;
@@ -215,8 +252,10 @@ export default function AdminPage() {
       setBlogImage('');
       setBlogContent('');
       fetchBlogs();
+      setBlogMsg('Blog updated successfully!');
     }
   };
+
   const handleDeleteBlog = async (id: string) => {
     const res = await fetch('/api/blogs', {
       method: 'DELETE',
@@ -362,7 +401,7 @@ export default function AdminPage() {
           <div>
             <h2 className="text-xl font-semibold mb-4">Blogs</h2>
             {/* Add Blog Form - Step 1: Card Details */}
-            {blogStep === 1 && (
+            {blogStep === 1 && !editBlog && (
               <form onSubmit={e => {
                 e.preventDefault();
                 if (!blogTitle.trim() || !blogDesc.trim()) {
@@ -380,7 +419,7 @@ export default function AdminPage() {
               </form>
             )}
             {/* Add Blog Form - Step 2: Blog Content */}
-            {blogStep === 2 && (
+            {blogStep === 2 && !editBlog && (
               <form onSubmit={handleAddBlog} className="mb-10 space-y-4">
                 <div>
                   <label className="block font-semibold mb-1">Content</label>
@@ -389,6 +428,31 @@ export default function AdminPage() {
                 <div className="flex gap-2">
                   <button type="button" onClick={() => setBlogStep(1)} className="bg-gray-300 text-black px-6 py-2 rounded-lg font-semibold hover:bg-gray-400 transition">Back</button>
                   <button type="submit" className="bg-black text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-900 transition">Save Blog</button>
+                </div>
+                {blogMsg && <div className="mt-2 text-green-600">{blogMsg}</div>}
+              </form>
+            )}
+            {/* Edit Blog Form */}
+            {editBlog && (
+              <form onSubmit={handleEditBlogSubmit} className="mb-10 space-y-4">
+                <h3 className="text-lg font-semibold">Edit Blog</h3>
+                <input type="text" placeholder="Blog Title (h1)" value={blogTitle} onChange={e => setBlogTitle(e.target.value)} className="w-full px-4 py-2 border rounded-lg" required />
+                <textarea placeholder="Short Description" value={blogDesc} onChange={e => setBlogDesc(e.target.value)} className="w-full px-4 py-2 border rounded-lg" required />
+                <input type="text" placeholder="Image URL" value={blogImage} onChange={e => setBlogImage(e.target.value)} className="w-full px-4 py-2 border rounded-lg" />
+                <div>
+                  <label className="block font-semibold mb-1">Content</label>
+                  <BlogEditor value={blogContent} onChange={setBlogContent} />
+                </div>
+                <div className="flex gap-2">
+                  <button type="button" onClick={() => {
+                    setEditBlog(null);
+                    setBlogTitle('');
+                    setBlogDesc('');
+                    setBlogImage('');
+                    setBlogContent('');
+                    setBlogStep(1);
+                  }} className="bg-gray-300 text-black px-6 py-2 rounded-lg font-semibold hover:bg-gray-400 transition">Cancel</button>
+                  <button type="submit" className="bg-black text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-900 transition">Update Blog</button>
                 </div>
                 {blogMsg && <div className="mt-2 text-green-600">{blogMsg}</div>}
               </form>
@@ -466,4 +530,4 @@ export default function AdminPage() {
       </div>
     </div>
   );
-} 
+}

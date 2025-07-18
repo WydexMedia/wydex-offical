@@ -22,7 +22,7 @@ function BottomSec() {
           </div>
           
           <p className="text-lg md:text-xl text-gray-700 mb-12 max-w-4xl mx-auto leading-relaxed font-medium">
-            Whether you choose Google Ads, Meta Ads, or a mix of both, we're here to help you succeed. 
+            Whether you choose Google Ads, Meta Ads, or a mix of both, we&apos;re here to help you succeed. 
             Ready to build your success story with the best digital marketing agency in Calicut?
           </p>
         </div>
