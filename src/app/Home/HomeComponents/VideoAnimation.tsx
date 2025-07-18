@@ -138,17 +138,19 @@ function VideoAnimation() {
         className='relative bg-black h-screen overflow-hidden my-[-2px]'
       >
         <div className='w-full'>
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className='absolute inset-0 w-full h-full object-cover z-0 transition-all duration-[2000ms] ease-out'
-            style={sectionVisibility.build ? getVideoTransform(1) : { opacity: 0, transform: 'scale(0.8) translateY(100px)' }}
-          >
-            <source src='/videos/market.mp4' type='video/mp4' />
-            Your browser does not support the video tag.
-          </video>
+        <video
+  autoPlay
+  loop
+  muted
+  playsInline
+  poster="https://res.cloudinary.com/dzdtdce9p/video/upload/v1752859860/market_nhharj.jpg"  // This should be a .jpg, not .mp4
+  className="absolute inset-0 w-full h-full object-cover z-0 transition-all duration-[2000ms] ease-out"
+  style={sectionVisibility.build ? getVideoTransform(1) : { opacity: 0, transform: 'scale(0.8) translateY(100px)' }}
+>
+  <source src="https://res.cloudinary.com/dzdtdce9p/video/upload/v1752859860/market_nhharj.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
         </div>
         
         
