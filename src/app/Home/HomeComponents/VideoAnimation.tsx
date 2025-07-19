@@ -113,10 +113,10 @@ function VideoAnimation() {
               style={sectionVisibility.design ? getScrollTransform(0) : { opacity: 0, transform: 'scale(0.7) translateY(150px)' }}
             >
               <h3 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight relative">
-                <span className="relative z-10">Ｓｔｒａｔｅｇｙ</span>
+                <span className="relative z-10">Strategy</span>
                 </h3>
               <p className="text-lg sm:text-xl md:text-2xl text-blue-200 max-w-3xl mx-auto mb-8 leading-relaxed transition-all duration-1000 ease-out" style={{ transitionDelay: '0.3s' }}>
-                Creativity meets logic. Every interface we craft begins with a design rooted in clarity, beauty, and purpose.
+              Crafting data-driven marketing roadmaps to position brands uniquely and achieve measurable business objectives effectively.
               </p>
               <a 
                 href="#" 
@@ -161,12 +161,11 @@ function VideoAnimation() {
               style={sectionVisibility.build ? getScrollTransform(1) : { opacity: 0, transform: 'scale(0.7) translateY(150px)' }}
             >
               <h3 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight relative">
-                <span className="relative z-10">Ｅｘｅｃｕｔｉｏｎ</span>
+                <span className="relative z-10">Execution</span>
                 <div className="absolute -inset-1 bg-gradient-to-r from-green-400/10 to-teal-400/10 blur-lg opacity-30 animate-pulse" style={{ animationDelay: '0.5s' }}></div> 
               </h3>
               <p className="text-lg sm:text-xl md:text-2xl text-green-200 max-w-3xl mx-auto mb-8 leading-relaxed transition-all duration-1000 ease-out" style={{ transitionDelay: '0.3s' }}>
-                From concept to code, we build robust systems that scale with your ideas and evolve with your vision.
-              </p>
+              Implementing targeted campaigns with precision, creativity, and consistency across digital platforms to maximize brand visibility.              </p>
               <a 
                 href="#" 
                 className="learn-more group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-600/20 to-teal-600/20 border border-green-400/40 rounded-xl text-white text-lg font-medium hover:from-green-500/30 hover:to-teal-500/30 hover:border-green-400/60 transition-all duration-500 backdrop-blur-sm shadow-lg shadow-green-400/20 hover:shadow-green-400/30 transform hover:scale-105"
@@ -208,11 +207,10 @@ function VideoAnimation() {
               style={sectionVisibility.market ? getScrollTransform(2) : { opacity: 0, transform: 'scale(0.7) translateY(150px)' }}
             >
               <h3 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight relative">
-                <span className="relative z-10">Ｇｒｏｗｔｈ</span>
+                <span className="relative z-10">Growth</span>
                 </h3>
               <p className="text-lg sm:text-xl md:text-2xl text-purple-200 max-w-3xl mx-auto mb-8 leading-relaxed transition-all duration-1000 ease-out" style={{ transitionDelay: '0.3s' }}>
-                Launch with impact. We help you bring your product to the right audience, with strategy, clarity, and innovation.
-              </p>
+              Driving continuous brand engagement, lead generation, and revenue through optimized strategies and performance-focused digital solutions.              </p>
               <a 
                 href="#" 
                 className="learn-more group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-400/40 rounded-xl text-white text-lg font-medium hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-400/60 transition-all duration-500 backdrop-blur-sm shadow-lg shadow-purple-400/20 hover:shadow-purple-400/30 transform hover:scale-105"
