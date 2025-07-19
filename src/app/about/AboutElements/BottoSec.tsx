@@ -117,9 +117,14 @@ function EnquiryForm() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
+  const [fieldWarning, setFieldWarning] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      setFieldWarning('Please fill out all required fields.');
+      return;
+    }
     setStatus('');
     const res = await fetch('/api/enquiry', {
       method: 'POST',
@@ -137,17 +142,18 @@ function EnquiryForm() {
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
+      {fieldWarning && <div className="text-red-600 text-sm mb-2">{fieldWarning}</div>}
       <div>
         <label htmlFor="enq-name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-        <input type="text" id="enq-name" name="enq-name" required value={name} onChange={e => setName(e.target.value)} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" />
+        <input type="text" id="enq-name" name="enq-name" required value={name} onChange={e => { setName(e.target.value); setFieldWarning(''); }} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" />
       </div>
       <div>
         <label htmlFor="enq-email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-        <input type="email" id="enq-email" name="enq-email" required value={email} onChange={e => setEmail(e.target.value)} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" />
+        <input type="email" id="enq-email" name="enq-email" required value={email} onChange={e => { setEmail(e.target.value); setFieldWarning(''); }} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" />
       </div>
       <div>
         <label htmlFor="enq-message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-        <textarea id="enq-message" name="enq-message" rows={5} required value={message} onChange={e => setMessage(e.target.value)} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"></textarea>
+        <textarea id="enq-message" name="enq-message" rows={5} required value={message} onChange={e => { setMessage(e.target.value); setFieldWarning(''); }} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"></textarea>
       </div>
       <button type="submit" className="w-full bg-black text-white py-3 rounded-lg font-semibold text-lg hover:bg-gray-900 transition-all cursor-pointer">Send Enquiry</button>
       {status && <div className="text-center mt-2 text-green-600">{status}</div>}

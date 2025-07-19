@@ -22,6 +22,7 @@ export default function CareerPage() {
   const [formLoading, setFormLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fileError, setFileError] = useState('');
+  const [fieldWarning, setFieldWarning] = useState('');
 
   useEffect(() => {
     fetchJobs();
@@ -50,10 +51,12 @@ export default function CareerPage() {
     setFormMsg('');
     setFormLoading(false);
     setFileError('');
+    setFieldWarning('');
   };
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
+    setFieldWarning('');
   };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFileError('');
@@ -75,6 +78,10 @@ export default function CareerPage() {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormMsg('');
+    if (!form.name.trim() || !form.email.trim() || !form.message.trim() || !form.resume) {
+      setFieldWarning('Please fill out all required fields and upload your resume.');
+      return;
+    }
     setFormLoading(true);
     const formData = new FormData();
     formData.append('name', form.name);
@@ -175,6 +182,7 @@ export default function CareerPage() {
             <button onClick={handleCloseModal} className="absolute top-3 right-3 text-gray-500 hover:text-black text-2xl">&times;</button>
             <h2 className="text-2xl font-bold mb-4">Apply for {applyingJob}</h2>
             <form onSubmit={handleFormSubmit} className="space-y-4">
+              {fieldWarning && <div className="text-red-600 text-sm mb-2">{fieldWarning}</div>}
               <div>
                 <label className="block font-semibold mb-1">Name</label>
                 <input name="name" type="text" value={form.name} onChange={handleFormChange} required className="w-full border px-3 py-2 rounded" />
