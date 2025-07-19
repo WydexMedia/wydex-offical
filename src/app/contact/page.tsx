@@ -60,7 +60,7 @@ function EnquiryForm({ onSuccess }: { onSuccess?: () => void }) {
 export default function ContactPage() {
   return (
     <AppShell>
-      <div className="max-w-2xl mx-auto p-8">
+      <div className="max-w-2xl mx-auto p-8 mt-24">
         <h1 className="text-3xl font-bold mb-6 text-center">Contact Us</h1>
         <EnquiryForm />
       </div>

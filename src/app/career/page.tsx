@@ -122,7 +122,7 @@ export default function CareerPage() {
           playsInline
         />
         <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center z-10 px-4">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 text-center">Let Our Team<br />Be Your New Team</h1>
+          <h1 className="text-4xl text-white md:text-6xl font-bold mb-4 text-center">Let Our Team<br />Be Your New Team</h1>
           <p className="text-lg md:text-2xl text-gray-200 max-w-2xl text-center mb-8">
             We always strive to make a positive difference in everything. If that’s important to you; Wydex would be a good fit.
           </p>

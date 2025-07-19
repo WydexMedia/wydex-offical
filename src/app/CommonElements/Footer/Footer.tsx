@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { Phone, Mail, MessageCircle, Twitter, Linkedin, Instagram, Facebook } from 'lucide-react';
+import { Phone, Mail, MessageCircle, Linkedin, Instagram, Facebook } from 'lucide-react';
 import Image from 'next/image';
 
 function FooterPage() {
@@ -13,7 +13,7 @@ function FooterPage() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 py-16 md:py-24">
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-16 mb-12">
 
           {/* Brand Section */}
           <div className="lg:col-span-1 space-y-6">
@@ -36,26 +36,30 @@ function FooterPage() {
 
             <div className="flex justify-center space-x-6 pt-4">
               <a
-                href="#"
+                href="https://wa.me/9188380779"
                 className="text-gray-500 hover:text-blue-400 transition-all duration-300 hover:scale-110"
+                target="_blank" rel="noopener noreferrer"
               >
-                <Twitter className="w-6 h-6" />
+                <MessageCircle className="w-6 h-6" />
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/company/wydex-media/posts/?feedView=all"
                 className="text-gray-500 hover:text-blue-400 transition-all duration-300 hover:scale-110"
+                target="_blank" rel="noopener noreferrer"
               >
                 <Linkedin className="w-6 h-6" />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/wydexmedia?utm_source=ig_web_button_share_sheet&igsh=MWlwa3I0ODV3MmVhdw=="
                 className="text-gray-500 hover:text-blue-400 transition-all duration-300 hover:scale-110"
+                target="_blank" rel="noopener noreferrer"
               >
                 <Instagram className="w-6 h-6" />
               </a>
               <a
-                href="#"
+                href="https://www.facebook.com/wydexmedia"
                 className="text-gray-500 hover:text-blue-400 transition-all duration-300 hover:scale-110"
+                target="_blank" rel="noopener noreferrer"
               >
                 <Facebook className="w-6 h-6" />
               </a>
