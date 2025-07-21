@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Calendar, Download, Edit2, Filter, Plus, Search, Trash2, X, Eye, EyeOff } from 'lucide-react';
+import Image from 'next/image';
 const BlogEditor = dynamic(() => import('./BlogEditor'), { ssr: false });
 
 // Define proper interfaces instead of using 'any'
@@ -764,10 +765,11 @@ export default function AdminPage() {
                     <div className="flex items-start justify-between">
                       <div className="flex space-x-4 flex-1">
                         {blog.image && (
-                          <img
+                          <Image
                             src={blog.image}
                             alt="Blog"
-                            className="w-24 h-16 object-cover rounded-lg"
+                            width={100}
+                            height={60}
                           />
                         )}
                         <div className="flex-1">

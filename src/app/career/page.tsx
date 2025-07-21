@@ -15,7 +15,6 @@ type Job = {
 
 
 export default function CareerPage() {
-  const openingsRef = useRef<HTMLDivElement>(null);
   const [jobs, setJobs] = useState<Job[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [applyingJob, setApplyingJob] = useState<string | null>(null);

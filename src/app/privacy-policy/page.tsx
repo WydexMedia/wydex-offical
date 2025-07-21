@@ -7,14 +7,14 @@ export default function PrivacyPolicyPage() {
       <div className="max-w-3xl mx-auto py-16 px-4 mt-32">
         <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
         <p className="mb-4">
-          WYDEX Media (“we,” “us,” or “our”) values your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.
+          &quot;Wydex Media&quot; is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website.
         </p>
 
         <h2 className="text-xl font-semibold mt-8 mb-2">1. Definitions</h2>
         <ul className="list-disc pl-6 mb-4">
-          <li><strong>"Personal Data"</strong> means any information relating to an identified or identifiable individual.</li>
-          <li><strong>"Services"</strong> refers to all digital marketing, SEO, web development, and related services provided by WYDEX Media.</li>
-          <li><strong>"You" or "User"</strong> means any visitor to our website or recipient of our services.</li>
+          <li><strong>&quot;Personal Data&quot;</strong> means any information relating to an identified or identifiable individual.</li>
+          <li><strong>&quot;Services&quot;</strong> refers to all digital marketing, SEO, web development, and related services provided by WYDEX Media.</li>
+          <li><strong>&quot;You&quot; or &quot;User&quot;</strong> means any visitor to our website or recipient of our services.</li>
         </ul>
 
         <h2 className="text-xl font-semibold mt-8 mb-2">2. Information We Collect</h2>
@@ -40,14 +40,14 @@ export default function PrivacyPolicyPage() {
           <li>To comply with legal obligations.</li>
         </ul>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">5. Sharing & Disclosure</h2>
+        <h2 className="text-xl font-semibold mt-8 mb-2">5. Sharing &amp; Disclosure</h2>
         <ul className="list-disc pl-6 mb-4">
           <li>We do <strong>not</strong> sell or rent your Personal Data to third parties.</li>
           <li><strong>Service Providers:</strong> We share with hosting, analytics, and email platforms under confidentiality commitments.</li>
           <li><strong>Legal Requirements:</strong> We may disclose data to comply with legal processes or protect our rights.</li>
         </ul>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">6. Cookies & Tracking</h2>
+        <h2 className="text-xl font-semibold mt-8 mb-2">6. Cookies &amp; Tracking</h2>
         <p className="mb-4">
           We use cookies and similar technologies to track usage, remember preferences, and improve your experience. You may control cookie settings through your browser.
         </p>
@@ -70,19 +70,19 @@ export default function PrivacyPolicyPage() {
           <li>Withdraw consent to marketing communications.</li>
         </ul>
 
-        <h2 className="text-xl font-semibold mt-8 mb-2">10. Children’s Privacy</h2>
+        <h2 className="text-xl font-semibold mt-8 mb-2">10. Children&apos;s Privacy</h2>
         <p className="mb-4">
           Our Services are not directed at individuals under 18 years old. We do not knowingly collect data from minors.
         </p>
 
         <h2 className="text-xl font-semibold mt-8 mb-2">11. Changes to This Policy</h2>
         <p className="mb-4">
-          We may update this Privacy Policy by posting a new version here. The "Last Updated" date will reflect changes.
+          We may update this Privacy Policy by posting a new version here. The &quot;Last Updated&quot; date will reflect changes.
         </p>
 
         <h2 className="text-xl font-semibold mt-8 mb-2">12. Contact Us</h2>
         <p className="mb-4">
-          For questions or to exercise your rights, please contact us at 
+          For questions or to exercise your rights, please contact us at{' '}
           <a href="mailto:wydexmedia@gmail.com" className="text-blue-500 underline">wydexmedia@gmail.com</a>.
         </p>
       </div>

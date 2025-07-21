@@ -7,14 +7,14 @@ export default function TermsPage() {
       <div className="max-w-3xl mx-auto py-16 px-4 mt-32">
         <h1 className="text-3xl font-bold mb-6">Terms &amp; Conditions</h1>
         <p className="mb-4">
-          Welcome to WYDEX Media. By accessing or using our website and services, you agree to be bound by these Terms &amp; Conditions. Please read them carefully.
+          &quot;Wydex Media&quot; provides digital marketing services subject to the following terms and conditions. By accessing our website, you agree to these terms.
         </p>
 
         <h2 className="text-xl font-semibold mt-8 mb-2">1. Definitions</h2>
         <ul className="list-disc pl-6 mb-4">
-          <li><strong>"We" / "Us" / "Our"</strong> refers to WYDEX Media.</li>
-          <li><strong>"You" / "User"</strong> refers to any individual or entity accessing or using our services.</li>
-          <li><strong>"Services"</strong> include all digital marketing, SEO, web development, and related services offered by WYDEX Media.</li>
+          <li><strong>&quot;We&quot; / &quot;Us&quot; / &quot;Our&quot;</strong> refers to WYDEX Media.</li>
+          <li><strong>&quot;You&quot; / &quot;User&quot;</strong> refers to any individual or entity accessing or using our services.</li>
+          <li><strong>&quot;Services&quot;</strong> include all digital marketing, SEO, web development, and related services offered by WYDEX Media.</li>
         </ul>
 
         <h2 className="text-xl font-semibold mt-8 mb-2">2. Use of Service</h2>
@@ -46,7 +46,7 @@ export default function TermsPage() {
 
         <h2 className="text-xl font-semibold mt-8 mb-2">6. Disclaimers &amp; Limitation of Liability</h2>
         <ul className="list-disc pl-6 mb-4">
-          <li>Services are provided "as is" without warranties of any kind.</li>
+          <li>Services are provided &quot;as is&quot; without warranties of any kind.</li>
           <li>We do not guarantee specific results or outcomes.</li>
           <li>To the fullest extent permitted by law, WYDEX Media will not be liable for any indirect or consequential damages.</li>
         </ul>
@@ -63,12 +63,12 @@ export default function TermsPage() {
 
         <h2 className="text-xl font-semibold mt-8 mb-2">9. Changes to Terms</h2>
         <p className="mb-4">
-          We reserve the right to modify these Terms at any time. Updated terms will be posted on this page with the "Last Updated" date.
+          We reserve the right to modify these Terms at any time. Updated terms will be posted on this page with the &quot;Last Updated&quot; date.
         </p>
 
         <h2 className="text-xl font-semibold mt-8 mb-2">10. Contact Us</h2>
         <p className="mb-4">
-          If you have any questions about these Terms &amp; Conditions, please contact us at 
+          If you have any questions about these Terms &amp; Conditions, please contact us at{' '}
           <a href="mailto:wydexmedia@gmail.com" className="text-blue-500 underline">wydexmedia@gmail.com</a>.
         </p>
       </div>

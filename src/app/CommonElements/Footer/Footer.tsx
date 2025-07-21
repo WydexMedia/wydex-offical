@@ -2,6 +2,7 @@
 import React from 'react';
 import { Phone, Mail, MessageCircle, Linkedin, Instagram, Facebook } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 function FooterPage() {
   return (
@@ -72,12 +73,12 @@ function FooterPage() {
               Company
             </h3>
             <div className="space-y-3">
-              <a href="/about" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">About</a>
-              <a href="/#services" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Services</a>
-              <a href="#" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Industries</a>
-              <a href="#" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Works</a>
-              <a href="/career" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Careers</a>
-              <a href="/contact" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Contact</a>
+              <Link href="/about" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">About</Link>
+              <Link href="/#services" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Services</Link>
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Industries</Link>
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Works</Link>
+              <Link href="/career" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Careers</Link>
+              <Link href="/contact" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Contact</Link>
             </div>
           </div>
 
@@ -87,12 +88,12 @@ function FooterPage() {
               Services
             </h3>
             <div className="space-y-3">
-              <a href="/blog/687bf922b20248e47a5e4fa4" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Branding</a>
-              <a href="/blog/687bff287c583f346bd03604" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Experience Design</a>
-              <a href="/blog/687dd90b7c583f346bd03609" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Technology</a>
-              <a href="/blog/687bff8f7c583f346bd03606" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Digital Marketing</a>
-              <a href="/blog/687bffae7c583f346bd03607" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Resource Augmentation</a>
-              <a href="/blog/687bffc37c583f346bd03608" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Partnership</a>
+              <Link href="/blog/687bf922b20248e47a5e4fa4/" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Branding</Link>
+              <Link href="/blog/687bff287c583f346bd03604/" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Experience Design</Link>
+              <Link href="/blog/687dd90b7c583f346bd03609/" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Technology</Link>
+              <Link href="/blog/687bff8f7c583f346bd03606/" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Digital Marketing</Link>
+              <Link href="/blog/687bffae7c583f346bd03607/" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Resource Augmentation</Link>
+              <Link href="/blog/687bffc37c583f346bd03608/" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Partnership</Link>
             </div>
           </div>
 
