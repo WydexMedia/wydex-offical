@@ -72,15 +72,12 @@ function FooterPage() {
               Company
             </h3>
             <div className="space-y-3">
-              {['About', 'Services', 'Industries', 'Works', 'Careers', 'Contact'].map((item) => (
-                <a
-                  key={item}
-                  href="#"
-                  className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base"
-                >
-                  {item}
-                </a>
-              ))}
+              <a href="/about" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">About</a>
+              <a href="/#services" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Services</a>
+              <a href="#" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Industries</a>
+              <a href="#" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Works</a>
+              <a href="/career" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Careers</a>
+              <a href="/contact" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Contact</a>
             </div>
           </div>
 
@@ -90,15 +87,12 @@ function FooterPage() {
               Services
             </h3>
             <div className="space-y-3">
-              {['Branding', 'Experience Design', 'Technology', 'Digital Marketing', 'Resource Augmentation', 'Partnership'].map((item) => (
-                <a
-                  key={item}
-                  href="#"
-                  className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base"
-                >
-                  {item}
-                </a>
-              ))}
+              <a href="/blog/branding" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Branding</a>
+              <a href="/blog/experience-design" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Experience Design</a>
+              <a href="/blog/technology" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Technology</a>
+              <a href="/blog/digital-marketing" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Digital Marketing</a>
+              <a href="/blog/resource-augmentation" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Resource Augmentation</a>
+              <a href="/blog/partnership" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Partnership</a>
             </div>
           </div>
 
@@ -137,9 +131,13 @@ function FooterPage() {
               <span className="text-blue-400 font-bold">WYDEX</span> © 2025 All rights reserved
             </div>
             <div className="flex space-x-8 text-base">
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Privacy Policy</a>
+              <a href="/privacy-policy" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-1">
+                Privacy Policy
+              </a>
               <span className="text-gray-600">•</span>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Terms & Conditions</a>
+              <a href="/terms-and-conditions" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-1">
+                Terms & Conditions
+              </a>
             </div>
           </div>
         </div>

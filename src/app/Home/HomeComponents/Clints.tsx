@@ -70,18 +70,10 @@ export default function Clients() {
       cursor-pointer
     "
           >
-            <p className="text-2xl md:text-3xl font-semibold text-white mb-4 text-center">
-              Our client stories do not end here...
-            </p>
-            <div
-              className="
-        inline-flex items-center
-        text-gray-400 group-hover:text-white
-        transition-colors duration-300
-      "
-            >
+            <div className="flex items-center justify-center text-2xl md:text-3xl font-semibold text-white mb-4 text-center gap-2">
+              <span>Our client stories do not end here...</span>
               <svg
-                className="w-6 h-6 transform group-hover:translate-x-1.5 transition-transform duration-300"
+                className="w-6 h-6 text-gray-400 group-hover:text-white transform group-hover:translate-x-1.5 transition-transform duration-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

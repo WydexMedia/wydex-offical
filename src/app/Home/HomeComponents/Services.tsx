@@ -40,7 +40,7 @@ const services = [
 
 function Services() {
   return (
-    <section className="bg-white py-20 px-4 md:px-8 lg:px-16 relative overflow-hidden">
+    <section id="services" className="bg-white py-20 px-4 md:px-8 lg:px-16 relative overflow-hidden">
       {/* Background Blurs */}
       <div className="absolute inset-0 opacity-5 pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-blue-400 to-purple-600 rounded-full blur-3xl"></div>

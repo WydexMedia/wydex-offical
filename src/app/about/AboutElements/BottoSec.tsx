@@ -27,26 +27,6 @@ function BottomSec() {
           </p>
         </div>
 
-        {/* Contact Form */}
-        <div className="max-w-2xl mx-auto mb-16 bg-white border border-gray-200 rounded-2xl shadow p-8">
-          <h3 className="text-2xl font-bold mb-6 text-center text-black">Contact Us</h3>
-          <form className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-              <input type="text" id="name" name="name" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" />
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-              <input type="email" id="email" name="email" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" />
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-              <textarea id="message" name="message" rows={5} required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"></textarea>
-            </div>
-            <button type="submit" className="w-full bg-black text-white py-3 rounded-lg font-semibold text-lg hover:bg-gray-900 transition-all cursor-pointer">Send Message</button>
-          </form>
-        </div>
-
         {/* Enquiry Form */}
         <div className="max-w-2xl mx-auto mb-16 bg-white border border-gray-200 rounded-2xl shadow p-8">
           <h3 className="text-2xl font-bold mb-6 text-center text-black">Enquiry Form</h3>
