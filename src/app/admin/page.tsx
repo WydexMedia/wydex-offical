@@ -1,7 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import { Calendar, Download, Edit2, Filter, Plus, Search, Trash2, X, Eye, EyeOff } from 'lucide-react';
 const BlogEditor = dynamic(() => import('./BlogEditor'), { ssr: false });
 

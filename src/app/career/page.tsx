@@ -1,6 +1,5 @@
 "use client"
 import React, { useRef, useEffect, useState } from 'react';
-import { PaperClipIcon } from '@heroicons/react/24/outline';
 import AppShell from "../AppShell";
 import { Briefcase, MapPin, Users, ArrowRight, X, Paperclip } from 'lucide-react';
 import toast from 'react-hot-toast';
