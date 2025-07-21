@@ -87,12 +87,12 @@ function FooterPage() {
               Services
             </h3>
             <div className="space-y-3">
-              <a href="/blog/branding" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Branding</a>
-              <a href="/blog/experience-design" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Experience Design</a>
-              <a href="/blog/technology" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Technology</a>
-              <a href="/blog/digital-marketing" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Digital Marketing</a>
-              <a href="/blog/resource-augmentation" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Resource Augmentation</a>
-              <a href="/blog/partnership" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Partnership</a>
+              <a href="/blog/687bf922b20248e47a5e4fa4" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Branding</a>
+              <a href="/blog/687bff287c583f346bd03604" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Experience Design</a>
+              <a href="/blog/687dd90b7c583f346bd03609" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Technology</a>
+              <a href="/blog/687bff8f7c583f346bd03606" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Digital Marketing</a>
+              <a href="/blog/687bffae7c583f346bd03607" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Resource Augmentation</a>
+              <a href="/blog/687bffc37c583f346bd03608" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Partnership</a>
             </div>
           </div>
 
