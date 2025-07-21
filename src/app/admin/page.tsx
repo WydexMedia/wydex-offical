@@ -300,6 +300,17 @@ export default function AdminPage() {
     }
   };
 
+  // Download resume from S3
+  const handleDownloadResume = async (key: string) => {
+    const res = await fetch('/api/s3/resume-download', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key }),
+    });
+    const { url } = await res.json();
+    window.open(url, '_blank');
+  };
+
   const tabs = [
     { id: 'jobs', label: 'Jobs', count: jobs.length },
     { id: 'applications', label: 'Applications', count: applications.length },
@@ -549,15 +560,13 @@ export default function AdminPage() {
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <a
-                            href={app.resume}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                          <button
+                            onClick={() => handleDownloadResume(app.resume)}
                             className="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-black hover:text-white transition-colors duration-200 text-sm font-medium"
                           >
                             <Download className="w-3 h-3 mr-1" />
                             Download
-                          </a>
+                          </button>
                         </td>
                       </tr>
                     ))}

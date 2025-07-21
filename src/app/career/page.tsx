@@ -85,17 +85,32 @@ export default function CareerPage() {
       return;
     }
     setFormLoading(true);
-    const formData = new FormData();
-    formData.append('name', form.name);
-    formData.append('email', form.email);
-    formData.append('phone', form.phone);
-    formData.append('message', form.message);
-    formData.append('resume', form.resume!);
-    formData.append('jobRole', applyingJob || '');
     try {
+      // 1. Get presigned URL
+      const presignRes = await fetch('/api/s3/resume-upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: form.resume.name, contentType: form.resume.type }),
+      });
+      const { url, key } = await presignRes.json();
+      // 2. Upload file to S3
+      await fetch(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': form.resume.type },
+        body: form.resume,
+      });
+      // 3. Submit application with S3 key
       const res = await fetch('/api/career/apply', {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          message: form.message,
+          jobRole: applyingJob,
+          resume: key,
+        }),
       });
       const data: { success: boolean; message?: string } = await res.json();
       if (data.success) {
