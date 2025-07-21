@@ -80,8 +80,20 @@ export default function CareerPage() {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormMsg('');
-    if (!form.name.trim() || !form.email.trim() || !form.message.trim() || !form.resume) {
-      setFieldWarning('Please fill out all required fields and upload your resume.');
+    if (!form.name.trim()) {
+      setFieldWarning('Please enter your full name.');
+      return;
+    }
+    if (!form.email.trim()) {
+      setFieldWarning('Please enter your email address.');
+      return;
+    }
+    if (!form.message.trim()) {
+      setFieldWarning('Please enter a cover letter.');
+      return;
+    }
+    if (!form.resume) {
+      setFieldWarning('Please upload your resume (PDF).');
       return;
     }
     setFormLoading(true);
@@ -276,11 +288,6 @@ export default function CareerPage() {
               
               {/* Application Form */}
               <div className="space-y-6">
-                {fieldWarning && (
-                  <div className="text-red-600 text-sm bg-red-50 p-4 rounded-xl border-2 border-red-200 font-semibold">
-                    {fieldWarning}
-                  </div>
-                )}
                 
                 <div>
                   <label className="block font-black mb-3 text-black text-lg">Full Name *</label>
@@ -366,14 +373,21 @@ export default function CareerPage() {
                   )}
                 </div>
                 
-                <button 
-                  type="button"
-                  onClick={handleFormSubmit}
-                  disabled={formLoading || !!fileError || !form.resume} 
-                  className="w-full bg-black text-white py-4 rounded-xl font-black text-lg hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
-                >
-                  {formLoading ? 'Submitting...' : 'Submit Application'}
-                </button>
+                <div className="space-y-2">
+                  {fieldWarning && (
+                    <div className="text-red-600 text-sm bg-red-50 p-4 rounded-xl border-2 border-red-200 font-semibold">
+                      {fieldWarning}
+                    </div>
+                  )}
+                  <button 
+                    type="button"
+                    onClick={handleFormSubmit}
+                    disabled={formLoading || !!fileError || !form.resume} 
+                    className="w-full bg-black text-white py-4 rounded-xl font-black text-lg hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                  >
+                    {formLoading ? 'Submitting...' : 'Submit Application'}
+                  </button>
+                </div>
                 
                 {formMsg && (
                   <div className="text-center text-green-700 bg-green-50 p-4 rounded-xl border-2 border-green-200 font-bold text-lg">
