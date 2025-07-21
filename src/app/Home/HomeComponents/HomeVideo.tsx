@@ -10,9 +10,10 @@ function HomeVideo() {
           loop
           muted
           playsInline
+          poster='https://res.cloudinary.com/dzdtdce9p/video/upload/v1752859859/video1_wojeup.mp4'
           preload="metadata"
         >
-          <source src="/videos/video1.mp4" type="video/mp4" />
+          <source src="https://res.cloudinary.com/dzdtdce9p/video/upload/v1752859859/video1_wojeup.mp4" type="video/mp4" />
           {/* Fallback for browsers that don't support video */}
           <div className="w-full h-full bg-gradient-to-br from-blue-100 to-purple-100" />
         </video>

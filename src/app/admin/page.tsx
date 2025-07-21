@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { Calendar, Download, Edit2, Filter, Plus, Search, Trash2, X, Eye, EyeOff } from 'lucide-react';
 const BlogEditor = dynamic(() => import('./BlogEditor'), { ssr: false });
 
 // Define proper interfaces instead of using 'any'
@@ -9,6 +10,9 @@ interface Job {
   _id: string;
   title: string;
   description: string;
+  type: string; // Job type (e.g. Full-time, Part-time)
+  location: string; // Job location
+  department: string; // Job department
   createdAt?: string;
 }
 
@@ -44,12 +48,16 @@ export default function AdminPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   // Job management - Replace any[] with Job[]
   const [jobs, setJobs] = useState<Job[]>([]);
   const [jobTitle, setJobTitle] = useState('');
   const [jobDesc, setJobDesc] = useState('');
   const [jobMsg, setJobMsg] = useState('');
+  const [jobType, setJobType] = useState('');
+  const [jobLocation, setJobLocation] = useState('');
+  const [jobDepartment, setJobDepartment] = useState('');
 
   // Enquiries - Replace any[] with Enquiry[]
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
@@ -141,13 +149,22 @@ export default function AdminPage() {
     const res = await fetch('/api/admin/jobs', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: jobTitle, description: jobDesc })
+      body: JSON.stringify({
+        title: jobTitle,
+        description: jobDesc,
+        type: jobType,
+        location: jobLocation,
+        department: jobDepartment
+      })
     });
     const data = await res.json();
     if (data.success) {
       setJobMsg('Job added!');
       setJobTitle('');
       setJobDesc('');
+      setJobType('');
+      setJobLocation('');
+      setJobDepartment('');
       fetchJobs();
     } else {
       setJobMsg(data.message || 'Error adding job');
@@ -158,6 +175,9 @@ export default function AdminPage() {
     setEditJob(job);
     setEditTitle(job.title);
     setEditDesc(job.description);
+    setJobType(job.type);
+    setJobLocation(job.location);
+    setJobDepartment(job.department);
   };
 
   const handleEditSubmit = async (e: React.FormEvent) => {
@@ -166,11 +186,23 @@ export default function AdminPage() {
     const res = await fetch('/api/admin/jobs', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: editJob._id, title: editTitle, description: editDesc })
+      body: JSON.stringify({
+        id: editJob._id,
+        title: editTitle,
+        description: editDesc,
+        type: jobType,
+        location: jobLocation,
+        department: jobDepartment
+      })
     });
     const data = await res.json();
     if (data.success) {
       setEditJob(null);
+      setEditTitle('');
+      setEditDesc('');
+      setJobType('');
+      setJobLocation('');
+      setJobDepartment('');
       fetchJobs();
     }
   };
@@ -269,6 +301,13 @@ export default function AdminPage() {
     }
   };
 
+  const tabs = [
+    { id: 'jobs', label: 'Jobs', count: jobs.length },
+    { id: 'applications', label: 'Applications', count: applications.length },
+    { id: 'enquiries', label: 'Enquiries', count: enquiries.length },
+    { id: 'blogs', label: 'Blogs', count: blogs.length },
+  ];
+
   // Admin Navbar
   if (!loggedIn) {
     return (
@@ -281,253 +320,577 @@ export default function AdminPage() {
           </div>
           <div className="mb-6">
             <label className="block text-gray-700 mb-1">Password</label>
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full px-4 py-2 border rounded-lg" required />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="w-full px-4 py-2 border rounded-lg"
+                required
+              />
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="focus:outline-none cursor-pointer"
+                  tabIndex={-1}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5 text-gray-500" /> : <Eye className="w-5 h-5 text-gray-500" />}
+                </button>
+              </div>
+            </div>
           </div>
           {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
-          <button type="submit" className="w-full bg-black text-white py-2 rounded-lg font-semibold hover:bg-gray-900 transition">Login</button>
+          <button type="submit" className="w-full bg-black cursor-pointer text-white py-2 rounded-lg font-semibold hover:bg-gray-900 transition">Login</button>
         </form>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Admin Navbar */}
-      <nav className="bg-black text-white px-8 py-4 flex gap-6 items-center">
-        <span className="text-xl font-bold tracking-wide">Admin</span>
-        <button onClick={() => setActiveTab('jobs')} className={activeTab === 'jobs' ? 'underline' : ''}>Jobs</button>
-        <button onClick={() => setActiveTab('applications')} className={activeTab === 'applications' ? 'underline' : ''}>Applications</button>
-        <button onClick={() => setActiveTab('enquiries')} className={activeTab === 'enquiries' ? 'underline' : ''}>Enquiries</button>
-        <button onClick={() => setActiveTab('blogs')} className={activeTab === 'blogs' ? 'underline' : ''}>Blogs</button>
-        <div className="flex-1" />
-        <button onClick={() => { setLoggedIn(false); }} className="bg-white text-black px-4 py-1 rounded hover:bg-gray-200">Logout</button>
-      </nav>
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow p-8 mt-8">
-        <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
-        {/* Tab Content */}
+    <div className="min-h-screen bg-white">
+      {/* Header */}
+      <header className="border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-8">
+              <h1 className="text-2xl font-bold text-black tracking-tight">Admin</h1>
+              <nav className="flex space-x-1">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id as typeof activeTab)}
+                    className={`px-4 py-2 rounded-lg cursor-pointer font-medium transition-all duration-200 ${
+                      activeTab === tab.id
+                        ? 'bg-black text-white'
+                        : 'text-gray-600 hover:text-black hover:bg-gray-50'
+                    }`}
+                  >
+                    {tab.label}
+                    <span className={`ml-2 text-xs px-2 py-1 rounded-full ${
+                      activeTab === tab.id
+                        ? 'bg-white text-black'
+                        : 'bg-gray-100 text-gray-500'
+                    }`}>
+                      {tab.count}
+                    </span>
+                  </button>
+                ))}
+              </nav>
+            </div>
+            <button
+              onClick={() => setLoggedIn(false)}
+              className="px-4 py-2 border cursor-pointer border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors duration-200 font-medium"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-7xl mx-auto px-6 py-8">
+        {/* Jobs Tab */}
         {activeTab === 'jobs' && (
-          <>
+          <div className="space-y-8">
             {/* Add Job Form */}
-            <form onSubmit={handleAddJob} className="mb-10">
-              <h2 className="text-xl font-semibold mb-4">Add Job Requirement</h2>
-              <div className="mb-3">
-                <input type="text" placeholder="Job Title" value={jobTitle} onChange={e => setJobTitle(e.target.value)} className="w-full px-4 py-2 border rounded-lg mb-2" required />
-                <textarea placeholder="Job Description" value={jobDesc} onChange={e => setJobDesc(e.target.value)} className="w-full px-4 py-2 border rounded-lg" required />
-              </div>
-              <button type="submit" className="bg-black text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-900 transition">Add Job</button>
-              {jobMsg && <div className="mt-2 text-green-600">{jobMsg}</div>}
-            </form>
-            {/* Job List */}
-            <div className="mb-10">
-              <h2 className="text-xl font-semibold mb-4">Current Job Requirements</h2>
-              <ul className="space-y-4">
-                {jobs.map((job, idx) => (
-                  <li key={job._id || idx} className="border-b pb-2 flex flex-col md:flex-row md:items-center md:justify-between">
-                    <div>
-                      <div className="font-bold">{job.title}</div>
-                      <div className="text-gray-700">{job.description}</div>
-                    </div>
-                    <div className="flex gap-2 mt-2 md:mt-0">
-                      <button onClick={() => handleEditJob(job)} className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Edit</button>
-                      <button onClick={() => setDeleteJobId(job._id)} className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">Delete</button>
-                    </div>
-                  </li>
-                ))}
-                {jobs.length === 0 && <li className="text-gray-500">No jobs found.</li>}
-              </ul>
-            </div>
-          </>
-        )}
-        {activeTab === 'applications' && (
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Candidate Applications</h2>
-            <div className="mb-4">
-              <label className="mr-2 font-semibold">Filter by Job Role:</label>
-              <select value={appFilter} onChange={e => setAppFilter(e.target.value)} className="border px-2 py-1 rounded">
-                <option value="">All</option>
-                {[...new Set(applications.map(a => a.jobRole))].map(role => (
-                  <option key={role} value={role}>{role}</option>
-                ))}
-              </select>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="min-w-full border text-sm">
-                <thead>
-                  <tr className="bg-gray-200">
-                    <th className="p-2 border">Name</th>
-                    <th className="p-2 border">Email</th>
-                    <th className="p-2 border">Job Role</th>
-                    <th className="p-2 border">Date</th>
-                    <th className="p-2 border">Resume</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {applications.filter(a => !appFilter || a.jobRole === appFilter).map(app => (
-                    <tr key={app._id}>
-                      <td className="p-2 border">{app.name}</td>
-                      <td className="p-2 border">{app.email}</td>
-                      <td className="p-2 border">{app.jobRole}</td>
-                      <td className="p-2 border">{app.createdAt ? new Date(app.createdAt).toLocaleString() : ''}</td>
-                      <td className="p-2 border">
-                        <a href={app.resume} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Download</a>
-                      </td>
-                    </tr>
-                  ))}
-                  {applications.length === 0 && (
-                    <tr><td colSpan={5} className="text-center text-gray-500 p-4">No applications found.</td></tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-        {activeTab === 'enquiries' && (
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Enquiries</h2>
-            <ul className="space-y-4">
-              {enquiries.map((enq, idx) => (
-                <li key={enq._id || idx} className="border-b pb-2">
-                  <div className="font-bold">{enq.name} ({enq.email})</div>
-                  <div className="text-gray-700">{enq.message}</div>
-                  {enq.phone && <div className="text-gray-700">Phone: {enq.phone}</div>}
-                  <div className="text-xs text-gray-400">{enq.createdAt ? new Date(enq.createdAt).toLocaleString() : ''}</div>
-                </li>
-              ))}
-              {enquiries.length === 0 && <li className="text-gray-500">No enquiries found.</li>}
-            </ul>
-          </div>
-        )}
-        {activeTab === 'blogs' && (
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Blogs</h2>
-            {/* Add Blog Form - Step 1: Card Details */}
-            {blogStep === 1 && !editBlog && (
-              <form onSubmit={e => {
-                e.preventDefault();
-                if (!blogTitle.trim() || !blogDesc.trim()) {
-                  setBlogMsg('Please fill in all required fields.');
-                  return;
-                }
-                setBlogMsg('');
-                setBlogStep(2);
-              }} className="mb-10 space-y-4">
-                <input type="text" placeholder="Blog Title (h1)" value={blogTitle} onChange={e => setBlogTitle(e.target.value)} className="w-full px-4 py-2 border rounded-lg" required />
-                <textarea placeholder="Short Description" value={blogDesc} onChange={e => setBlogDesc(e.target.value)} className="w-full px-4 py-2 border rounded-lg" required />
-                <input type="text" placeholder="Image URL" value={blogImage} onChange={e => setBlogImage(e.target.value)} className="w-full px-4 py-2 border rounded-lg" />
-                <button type="submit" className="bg-black text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-900 transition">Next</button>
-                {blogMsg && <div className="mt-2 text-green-600">{blogMsg}</div>}
-              </form>
-            )}
-            {/* Add Blog Form - Step 2: Blog Content */}
-            {blogStep === 2 && !editBlog && (
-              <form onSubmit={handleAddBlog} className="mb-10 space-y-4">
+            <div className="bg-gray-50 rounded-xl p-6">
+              <h2 className="text-xl font-semibold mb-6 flex items-center">
+                <Plus className="w-5 h-5 mr-2" />
+                Add New Position
+              </h2>
+              <form onSubmit={handleAddJob} className="space-y-4">
                 <div>
-                  <label className="block font-semibold mb-1">Content</label>
-                  <BlogEditor value={blogContent} onChange={setBlogContent} />
+                  <input
+                    type="text"
+                    placeholder="Position Title"
+                    value={jobTitle}
+                    onChange={(e) => setJobTitle(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                    required
+                  />
                 </div>
-                <div className="flex gap-2">
-                  <button type="button" onClick={() => setBlogStep(1)} className="bg-gray-300 text-black px-6 py-2 rounded-lg font-semibold hover:bg-gray-400 transition">Back</button>
-                  <button type="submit" className="bg-black text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-900 transition">Save Blog</button>
-                </div>
-                {blogMsg && <div className="mt-2 text-green-600">{blogMsg}</div>}
-              </form>
-            )}
-            {/* Edit Blog Form */}
-            {editBlog && (
-              <form onSubmit={handleEditBlogSubmit} className="mb-10 space-y-4">
-                <h3 className="text-lg font-semibold">Edit Blog</h3>
-                <input type="text" placeholder="Blog Title (h1)" value={blogTitle} onChange={e => setBlogTitle(e.target.value)} className="w-full px-4 py-2 border rounded-lg" required />
-                <textarea placeholder="Short Description" value={blogDesc} onChange={e => setBlogDesc(e.target.value)} className="w-full px-4 py-2 border rounded-lg" required />
-                <input type="text" placeholder="Image URL" value={blogImage} onChange={e => setBlogImage(e.target.value)} className="w-full px-4 py-2 border rounded-lg" />
                 <div>
-                  <label className="block font-semibold mb-1">Content</label>
-                  <BlogEditor value={blogContent} onChange={setBlogContent} />
+                  <input
+                    type="text"
+                    placeholder="Job Type (e.g. Full-time, Part-time)"
+                    value={jobType}
+                    onChange={(e) => setJobType(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                    required
+                  />
                 </div>
-                <div className="flex gap-2">
-                  <button type="button" onClick={() => {
-                    setEditBlog(null);
-                    setBlogTitle('');
-                    setBlogDesc('');
-                    setBlogImage('');
-                    setBlogContent('');
-                    setBlogStep(1);
-                  }} className="bg-gray-300 text-black px-6 py-2 rounded-lg font-semibold hover:bg-gray-400 transition">Cancel</button>
-                  <button type="submit" className="bg-black text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-900 transition">Update Blog</button>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Job Location"
+                    value={jobLocation}
+                    onChange={(e) => setJobLocation(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                    required
+                  />
                 </div>
-                {blogMsg && <div className="mt-2 text-green-600">{blogMsg}</div>}
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Job Department"
+                    value={jobDepartment}
+                    onChange={(e) => setJobDepartment(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                    required
+                  />
+                </div>
+                <div>
+                  <textarea
+                    placeholder="Job Description"
+                    value={jobDesc}
+                    onChange={(e) => setJobDesc(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg h-32 resize-none focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="px-6 py-3 cursor-pointer bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200"
+                >
+                  Add Position
+                </button>
+                {jobMsg && (
+                  <div className="text-green-600 font-medium">{jobMsg}</div>
+                )}
               </form>
-            )}
-            {/* Blog List */}
+            </div>
+
+            {/* Jobs List */}
             <div>
-              <h3 className="text-lg font-semibold mb-2">All Blogs</h3>
-              <ul className="space-y-4">
-                {blogs.map((blog, idx) => (
-                  <li key={blog._id || idx} className="border-b pb-2 flex flex-col md:flex-row md:items-center md:justify-between">
-                    <div>
-                      <div className="font-bold text-lg">{blog.title}</div>
-                      <div className="text-gray-700">{blog.description}</div>
-                      {blog.image && <Image src={blog.image} alt="Blog" width={128} height={80} className="w-32 h-20 object-cover rounded mt-2" />}
+              <h2 className="text-xl font-semibold mb-6">Open Positions</h2>
+              <div className="space-y-4">
+                {jobs.map((job) => (
+                  <div key={job._id} className="bg-white border border-gray-100 rounded-xl p-6 hover:shadow-sm transition-shadow duration-200">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-black mb-2">{job.title}</h3>
+                        <p className="text-gray-600 leading-relaxed">{job.description}</p>
+                      </div>
+                      <div className="flex items-center space-x-2 ml-4">
+                        <button
+                          onClick={() => handleEditJob(job)}
+                          className="p-2 cursor-pointer text-gray-400 hover:text-black hover:bg-gray-50 rounded-lg transition-colors duration-200"
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => setDeleteJobId(job._id)}
+                          className="p-2 cursor-pointer text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors duration-200"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
-                    <div className="flex gap-2 mt-2 md:mt-0">
-                      <button onClick={() => handleEditBlog(blog)} className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Edit</button>
-                      <button onClick={() => setDeleteBlogId(blog._id)} className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">Delete</button>
-                    </div>
-                  </li>
-                ))}
-                {blogs.length === 0 && <li className="text-gray-500">No blogs found.</li>}
-              </ul>
-            </div>
-            {/* Delete Confirmation Modal */}
-            {deleteBlogId && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-                <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm relative">
-                  <button onClick={() => setDeleteBlogId(null)} className="absolute top-2 right-3 text-2xl text-gray-400 hover:text-black">&times;</button>
-                  <h2 className="text-xl font-bold mb-4">Delete Blog</h2>
-                  <p>Are you sure you want to delete this blog?</p>
-                  <div className="flex justify-end gap-2 mt-6">
-                    <button onClick={() => setDeleteBlogId(null)} className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
-                    <button onClick={() => handleDeleteBlog(deleteBlogId!)} className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Delete</button>
                   </div>
+                ))}
+                {jobs.length === 0 && (
+                  <div className="text-center py-12 text-gray-500">
+                    <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                      <Search className="w-6 h-6" />
+                    </div>
+                    No positions found
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Applications Tab */}
+        {activeTab === 'applications' && (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold">Applications</h2>
+              <div className="flex items-center space-x-2">
+                <Filter className="w-4 h-4 text-gray-400" />
+                <select
+                  value={appFilter}
+                  onChange={(e) => setAppFilter(e.target.value)}
+                  className="border border-gray-200 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                >
+                  <option value="">All Positions</option>
+                  {[...new Set(applications.map(a => a.jobRole))].map(role => (
+                    <option key={role} value={role}>{role}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="bg-white border border-gray-100 rounded-xl overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="bg-gray-50 border-b border-gray-100">
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Candidate</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Position</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Applied</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Resume</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {applications.filter(a => !appFilter || a.jobRole === appFilter).map(app => (
+                      <tr key={app._id} className="border-b border-gray-50 hover:bg-gray-25 transition-colors duration-200">
+                        <td className="px-6 py-4">
+                          <div>
+                            <div className="font-medium text-black">{app.name}</div>
+                            <div className="text-sm text-gray-600">{app.email}</div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-gray-900">{app.jobRole}</td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center text-sm text-gray-600">
+                            <Calendar className="w-4 h-4 mr-1" />
+                            {app.createdAt ? new Date(app.createdAt).toLocaleDateString() : ''}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <a
+                            href={app.resume}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-black hover:text-white transition-colors duration-200 text-sm font-medium"
+                          >
+                            <Download className="w-3 h-3 mr-1" />
+                            Download
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {applications.length === 0 && (
+                  <div className="text-center py-12 text-gray-500">
+                    <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                      <Search className="w-6 h-6" />
+                    </div>
+                    No applications found
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Enquiries Tab */}
+        {activeTab === 'enquiries' && (
+          <div className="space-y-6">
+            <h2 className="text-xl font-semibold">Enquiries</h2>
+            <div className="space-y-4">
+              {enquiries.map((enq) => (
+                <div key={enq._id} className="bg-white border border-gray-100 rounded-xl p-6 hover:shadow-sm transition-shadow duration-200">
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <h3 className="font-semibold text-black">{enq.name}</h3>
+                      <p className="text-gray-600">{enq.email}</p>
+                      {enq.phone && <p className="text-gray-600">{enq.phone}</p>}
+                    </div>
+                    <div className="flex items-center text-xs text-gray-500">
+                      <Calendar className="w-3 h-3 mr-1" />
+                      {enq.createdAt ? new Date(enq.createdAt).toLocaleDateString() : ''}
+                    </div>
+                  </div>
+                  <p className="text-gray-700 leading-relaxed">{enq.message}</p>
                 </div>
+              ))}
+              {enquiries.length === 0 && (
+                <div className="text-center py-12 text-gray-500">
+                  <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                    <Search className="w-6 h-6" />
+                  </div>
+                  No enquiries found
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Blogs Tab */}
+        {activeTab === 'blogs' && (
+          <div className="space-y-8">
+            {/* Add/Edit Blog Form */}
+            {!editBlog && blogStep === 1 && (
+              <div className="bg-gray-50 rounded-xl p-6">
+                <h2 className="text-xl font-semibold mb-6 flex items-center">
+                  <Plus className="w-5 h-5 mr-2" />
+                  Create New Blog
+                </h2>
+                <form onSubmit={(e) => {
+                  e.preventDefault();
+                  if (!blogTitle.trim() || !blogDesc.trim()) {
+                    setBlogMsg('Please fill in all required fields.');
+                    return;
+                  }
+                  setBlogMsg('');
+                  setBlogStep(2);
+                }} className="space-y-4">
+                  <input
+                    type="text"
+                    placeholder="Blog Title"
+                    value={blogTitle}
+                    onChange={(e) => setBlogTitle(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                    required
+                  />
+                  <textarea
+                    placeholder="Short Description"
+                    value={blogDesc}
+                    onChange={(e) => setBlogDesc(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg h-24 resize-none focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Featured Image URL"
+                    value={blogImage}
+                    onChange={(e) => setBlogImage(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                  />
+                  <button
+                    type="submit"
+                    className="px-6 cursor-pointer py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200"
+                  >
+                    Continue to Content
+                  </button>
+                  {blogMsg && (
+                    <div className="text-red-600 font-medium">{blogMsg}</div>
+                  )}
+                </form>
               </div>
             )}
-          </div>
-        )}
-        {/* Edit Job Modal */}
-        {editJob && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
-              <button onClick={() => setEditJob(null)} className="absolute top-2 right-3 text-2xl text-gray-400 hover:text-black">&times;</button>
-              <h2 className="text-xl font-bold mb-4">Edit Job</h2>
-              <form onSubmit={handleEditSubmit} className="space-y-4">
-                <div>
-                  <label className="block font-semibold mb-1">Title</label>
-                  <input type="text" value={editTitle} onChange={e => setEditTitle(e.target.value)} required className="w-full border px-3 py-2 rounded" />
-                </div>
-                <div>
-                  <label className="block font-semibold mb-1">Description</label>
-                  <textarea value={editDesc} onChange={e => setEditDesc(e.target.value)} required className="w-full border px-3 py-2 rounded" rows={3} />
-                </div>
-                <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded font-semibold hover:bg-blue-700 transition">Save Changes</button>
-              </form>
-            </div>
-          </div>
-        )}
-        {/* Delete Confirmation Modal */}
-        {deleteJobId && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm relative">
-              <button onClick={() => setDeleteJobId(null)} className="absolute top-2 right-3 text-2xl text-gray-400 hover:text-black">&times;</button>
-              <h2 className="text-xl font-bold mb-4">Delete Job</h2>
-              <p>Are you sure you want to delete this job?</p>
-              <div className="flex justify-end gap-2 mt-6">
-                <button onClick={() => setDeleteJobId(null)} className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
-                <button onClick={() => handleDeleteJob(deleteJobId!)} className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Delete</button>
+
+            {!editBlog && blogStep === 2 && (
+              <div className="bg-gray-50 rounded-xl p-6">
+                <h2 className="text-xl font-semibold mb-6">Blog Content</h2>
+                <form onSubmit={handleAddBlog} className="space-y-4">
+                  <BlogEditor value={blogContent} onChange={setBlogContent} />
+                  <div className="flex space-x-3">
+                    <button
+                      type="button"
+                      onClick={() => setBlogStep(1)}
+                      className="px-6 py-3 cursor-pointer border border-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors duration-200"
+                    >
+                      Back
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-6 cursor-pointer py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200"
+                    >
+                      Publish Blog
+                    </button>
+                  </div>
+                  {blogMsg && (
+                    <div className="text-green-600 font-medium">{blogMsg}</div>
+                  )}
+                </form>
+              </div>
+            )}
+
+            {editBlog && (
+              <div className="bg-gray-50 rounded-xl p-6">
+                <h2 className="text-xl font-semibold mb-6">Edit Blog</h2>
+                <form onSubmit={handleEditBlogSubmit} className="space-y-4">
+                  <input
+                    type="text"
+                    placeholder="Blog Title"
+                    value={blogTitle}
+                    onChange={(e) => setBlogTitle(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                    required
+                  />
+                  <textarea
+                    placeholder="Short Description"
+                    value={blogDesc}
+                    onChange={(e) => setBlogDesc(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg h-24 resize-none focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Featured Image URL"
+                    value={blogImage}
+                    onChange={(e) => setBlogImage(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                  />
+                  <BlogEditor value={blogContent} onChange={setBlogContent} />
+                  <div className="flex space-x-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditBlog(null);
+                        setBlogTitle('');
+                        setBlogDesc('');
+                        setBlogImage('');
+                        setBlogContent('');
+                        setBlogStep(1);
+                      }}
+                      className="px-6 py-3 cursor-pointer border border-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors duration-200"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-6 cursor-pointer py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200"
+                    >
+                      Update Blog
+                    </button>
+                  </div>
+                  {blogMsg && (
+                    <div className="text-green-600 font-medium">{blogMsg}</div>
+                  )}
+                </form>
+              </div>
+            )}
+
+            {/* Blogs List */}
+            <div>
+              <h2 className="text-xl font-semibold mb-6">Published Blogs</h2>
+              <div className="grid gap-6">
+                {blogs.map((blog) => (
+                  <div key={blog._id} className="bg-white border border-gray-100 rounded-xl p-6 hover:shadow-sm transition-shadow duration-200">
+                    <div className="flex items-start justify-between">
+                      <div className="flex space-x-4 flex-1">
+                        {blog.image && (
+                          <img
+                            src={blog.image}
+                            alt="Blog"
+                            className="w-24 h-16 object-cover rounded-lg"
+                          />
+                        )}
+                        <div className="flex-1">
+                          <h3 className="text-lg font-semibold text-black mb-2">{blog.title}</h3>
+                          <p className="text-gray-600 leading-relaxed">{blog.description}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2 ml-4">
+                        <button
+                          onClick={() => handleEditBlog(blog)}
+                          className="p-2 cursor-pointer text-gray-400 hover:text-black hover:bg-gray-50 rounded-lg transition-colors duration-200"
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => setDeleteBlogId(blog._id)}
+                          className="p-2 cursor-pointer text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors duration-200"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {blogs.length === 0 && (
+                  <div className="text-center py-12 text-gray-500">
+                    <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                      <Search className="w-6 h-6" />
+                    </div>
+                    No blogs found
+                  </div>
+                )}
               </div>
             </div>
           </div>
         )}
-      </div>
+      </main>
+
+      {/* Modals */}
+      {editJob && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-md">
+            <div className="flex items-center justify-between p-6 border-b border-gray-100">
+              <h2 className="text-xl font-semibold">Edit Position</h2>
+              <button
+                onClick={() => setEditJob(null)}
+                className="text-gray-400 cursor-pointer hover:text-gray-600 transition-colors duration-200"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <form onSubmit={handleEditSubmit} className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Position Title</label>
+                <input
+                  type="text"
+                  value={editTitle}
+                  onChange={(e) => setEditTitle(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <textarea
+                  value={editDesc}
+                  onChange={(e) => setEditDesc(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg h-32 resize-none focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full cursor-pointer px-6 py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200"
+              >
+                Save Changes
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {deleteJobId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-sm">
+            <div className="p-6">
+              <h2 className="text-xl font-semibold mb-4">Delete Position</h2>
+              <p className="text-gray-600 mb-6">Are you sure you want to delete this position? This action cannot be undone.</p>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setDeleteJobId(null)}
+                  className="flex-1 cursor-pointer px-4 py-2 border border-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors duration-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleDeleteJob(deleteJobId)}
+                  className="flex-1 cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors duration-200"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deleteBlogId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-sm">
+            <div className="p-6">
+              <h2 className="text-xl font-semibold mb-4">Delete Blog</h2>
+              <p className="text-gray-600 mb-6">Are you sure you want to delete this blog post? This action cannot be undone.</p>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setDeleteBlogId(null)}
+                  className="flex-1 cursor-pointer px-4 py-2 border border-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors duration-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleDeleteBlog(deleteBlogId)}
+                  className="flex-1 cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors duration-200"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

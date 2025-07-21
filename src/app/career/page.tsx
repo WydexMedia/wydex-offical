@@ -2,6 +2,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { PaperClipIcon } from '@heroicons/react/24/outline';
 import AppShell from "../AppShell";
+import { Briefcase, MapPin, Users, ArrowRight, X, Paperclip } from 'lucide-react';
+import toast from 'react-hot-toast';
 type Job = {
   _id: string;
   title: string;
@@ -9,6 +11,7 @@ type Job = {
   location?: string;
   department?: string;
   requirements?: string[]; // if you're planning to use it later
+  type?: string; // <-- Add this line
 };
 
 
@@ -98,13 +101,16 @@ export default function CareerPage() {
       const data: { success: boolean; message?: string } = await res.json();
       if (data.success) {
         setFormMsg('Application submitted!');
+        toast.success('Application submitted successfully!');
         setTimeout(() => handleCloseModal(), 1500);
       } else {
         setFormMsg(data.message || 'Submission failed.');
+        toast.error(data.message || 'Submission failed.');
       }
     } catch (err) {
       console.error(err);
       setFormMsg('Submission failed.');
+      toast.error('Submission failed.');
     }
     setFormLoading(false);
   };
@@ -113,14 +119,30 @@ export default function CareerPage() {
     <AppShell>
       {/* Video Header */}
       <div className="relative w-full h-[60vh] flex items-center justify-center overflow-hidden mt-12 md:mt-14">
-        <video
+        {/* <video
           className="absolute inset-0 w-full h-full object-cover"
-          src="/videos/wydex-carrer.mp4"
+          
           autoPlay
           loop
+          poster='https://res.cloudinary.com/dzdtdce9p/video/upload/v1752859859/wydex-carrer_hknspp.mp4'
           muted
           playsInline
         />
+        <source src='https://res.cloudinary.com/dzdtdce9p/video/upload/v1752859859/butterfly_oumulj.mp4' type='video/mp4' />
+            Your browser does not support the video tag. */
+            <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster='https://res.cloudinary.com/dzdtdce9p/video/upload/v1752859859/wydex-carrer_hknspp.mp4'
+            className='absolute inset-0 w-full h-full object-cover z-0 transition-all duration-[2000ms] ease-out'
+          >
+            <source src='https://res.cloudinary.com/dzdtdce9p/video/upload/v1752859859/wydex-carrer_hknspp.mp4' type='video/mp4' />
+            Your browser does not support the video tag.
+          </video>
+            }
+          
         <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center z-10 px-4">
           <h1 className="text-4xl text-white md:text-6xl font-bold mb-4 text-center">Let Our Team<br />Be Your New Team</h1>
           <p className="text-lg md:text-2xl text-gray-200 max-w-2xl text-center mb-8">
@@ -136,95 +158,221 @@ export default function CareerPage() {
       </div>
 
       {/* Openings List */}
-      <div ref={openingsRef} className="max-w-3xl mx-auto py-20 px-4">
-        <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-white">Current Openings</h2>
-        <div className="space-y-8">
-          {jobs.length === 0 && <div className="text-gray-400 text-center">No openings at the moment.</div>}
-          {jobs.map((job, idx) => (
-            <div
-              key={job._id || idx}
-              className="group relative bg-gradient-to-br from-gray-900 via-gray-950 to-black border border-gray-800 rounded-3xl p-8 shadow-xl flex flex-col md:flex-row md:items-center md:justify-between transition-all duration-300 hover:shadow-2xl hover:border-blue-500 hover:-translate-y-1 overflow-hidden"
-            >
-              {/* Left Accent Bar */}
-              <div className="absolute left-0 top-0 bottom-0 w-2 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-r-2xl" />
-              <div className="pl-12 flex-1">
-                <div className="flex items-center mb-2">
-                  <span className="text-2xl md:text-3xl font-bold text-white mr-3">{job.title}</span>
-                  {/* Optionally, add a tag for job type/location if available */}
-                  {/* <span className="bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full ml-2">Full Time</span> */}
+      <div className="bg-black min-h-screen">
+      {/* Current Openings Section */}
+      <div className="py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-5xl md:text-6xl font-black text-white mb-6 tracking-tight">
+              Current Openings
+            </h2>
+            <div className="w-24 h-1 bg-white mx-auto mb-6"></div>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+              Find your next opportunity and join our team of innovators
+            </p>
+          </div>
+          
+          {/* Job Listings */}
+          <div className="space-y-8">
+            {jobs.length === 0 ? (
+              <div className="text-center py-20">
+                <div className="w-24 h-24 mx-auto mb-6 bg-gray-800 rounded-full flex items-center justify-center">
+                  <Briefcase className="w-12 h-12 text-gray-500" />
                 </div>
-                <div className="text-gray-300 text-base mb-4 leading-relaxed break-all">{job.description}</div>
-                {/* Optionally, show requirements if available: job.requirements && (
-                  <ul className="list-disc list-inside text-gray-400 text-sm mb-4">
-                    {job.requirements.map((req, i) => <li key={i}>{req}</li>)}
-                  </ul>
-                ) */}
+                <h3 className="text-2xl font-bold text-white mb-3">No openings at the moment</h3>
+                <p className="text-gray-400 text-lg">Check back soon for new opportunities!</p>
               </div>
-              <div className="flex-shrink-0 flex items-center justify-end md:ml-8 mt-6 md:mt-0">
-                <a
-                  href="#"
-                  onClick={e => { e.preventDefault(); handleOpenModal(job.title); }}
-                  className="inline-flex items-center bg-gradient-to-r from-blue-600 to-cyan-400 text-white font-bold px-7 py-3 rounded-full shadow-lg hover:from-cyan-400 hover:to-blue-600 hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+            ) : (
+              jobs.map((job, idx) => (
+                <div
+                  key={job._id || idx}
+                  className="group bg-white border-2 border-gray-200 rounded-2xl p-8 hover:border-black hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
                 >
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16 12H8m0 0l4-4m-4 4l4 4" /></svg>
-                  Apply Now
-                </a>
-              </div>
-            </div>
-          ))}
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8">
+                    {/* Job Info */}
+                    <div className="flex-1">
+                      <div className="flex flex-wrap items-center gap-4 mb-6">
+                        <h3 className="text-3xl md:text-4xl font-black text-black group-hover:text-gray-800 transition-colors">
+                          {job.title}
+                        </h3>
+                        <span className="bg-black text-white text-sm font-bold px-4 py-2 rounded-full uppercase tracking-wide">
+                          {job.type}
+                        </span>
+                      </div>
+                      
+                      {/* Job Meta */}
+                      <div className="flex flex-wrap items-center gap-6 mb-6">
+                        <div className="flex items-center gap-2 text-gray-600">
+                          <MapPin className="w-5 h-5" />
+                          <span className="font-semibold">{job.location}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-gray-600">
+                          <Users className="w-5 h-5" />
+                          <span className="font-semibold">{job.department}</span>
+                        </div>
+                      </div>
+                      
+                      {/* Job Description */}
+                      <p className="text-gray-700 text-lg leading-relaxed font-medium">
+                        {job.description}
+                      </p>
+                    </div>
+                    
+                    {/* Apply Button */}
+                    <div className="flex-shrink-0 flex items-center">
+                      <button
+                        onClick={() => handleOpenModal(job.title)}
+                        className="group/btn relative inline-flex items-center bg-black text-white font-bold px-8 py-4 rounded-full hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 overflow-hidden"
+                      >
+                        {/* Button background animation */}
+                        <div className="absolute inset-0 bg-white transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left"></div>
+                        <span className="relative z-10 group-hover/btn:text-black transition-colors duration-300">
+                          Apply Now
+                        </span>
+                        <ArrowRight className="relative z-10 w-5 h-5 ml-3 group-hover/btn:translate-x-1 group-hover/btn:text-black transition-all duration-300" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Modal for Application Form */}
+      {/* Application Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-          <div className="bg-white text-black rounded-xl shadow-lg w-full max-w-lg p-8 relative">
-            <button onClick={handleCloseModal} className="absolute top-3 right-3 text-gray-500 hover:text-black text-2xl">&times;</button>
-            <h2 className="text-2xl font-bold mb-4">Apply for {applyingJob}</h2>
-            <form onSubmit={handleFormSubmit} className="space-y-4">
-              {fieldWarning && <div className="text-red-600 text-sm mb-2">{fieldWarning}</div>}
-              <div>
-                <label className="block font-semibold mb-1">Name</label>
-                <input name="name" type="text" value={form.name} onChange={handleFormChange} required className="w-full border px-3 py-2 rounded" />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Email</label>
-                <input name="email" type="email" value={form.email} onChange={handleFormChange} required className="w-full border px-3 py-2 rounded" />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Phone</label>
-                <input name="phone" type="tel" value={form.phone} onChange={handleFormChange} className="w-full border px-3 py-2 rounded" />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Cover Letter / Message</label>
-                <textarea name="message" value={form.message} onChange={handleFormChange} className="w-full border px-3 py-2 rounded" rows={3} />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Resume (PDF, max 2MB)</label>
-                <div className="flex items-center gap-2">
-                  <button type="button" onClick={() => fileInputRef.current?.click()} className="flex items-center px-3 py-2 bg-gray-200 rounded hover:bg-gray-300 text-black">
-                    <PaperClipIcon className="w-5 h-5 mr-2" />
-                    Upload Resume
-                  </button>
-                  {form.resume && <span className="text-sm text-green-700">{form.resume.name}</span>}
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="bg-white text-black rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto border-4 border-black">
+            <div className="p-8">
+              {/* Modal Header */}
+              <div className="flex items-center justify-between mb-8 pb-4 border-b-2 border-gray-200">
+                <div>
+                  <h2 className="text-2xl font-black text-black">Apply Now</h2>
+                  <p className="text-gray-600 font-semibold">{applyingJob}</p>
                 </div>
-                <input
-                  ref={fileInputRef}
-                  name="resume"
-                  type="file"
-                  accept="application/pdf"
-                  onChange={handleFileChange}
-                  required
-                  className="hidden"
-                />
-                {fileError && <div className="text-red-600 text-sm mt-1">{fileError}</div>}
+                <button 
+                  onClick={handleCloseModal} 
+                  className="text-gray-400 hover:text-black transition-colors p-2 rounded-full hover:bg-gray-100"
+                >
+                  <X className="w-6 h-6" />
+                </button>
               </div>
-              <button type="submit" disabled={formLoading || !!fileError || !form.resume} className="w-full bg-black text-white py-2 rounded font-semibold hover:bg-gray-900 transition">{formLoading ? 'Submitting...' : 'Submit Application'}</button>
-              {formMsg && <div className="text-center text-green-600 mt-2">{formMsg}</div>}
-            </form>
+              
+              {/* Application Form */}
+              <div className="space-y-6">
+                {fieldWarning && (
+                  <div className="text-red-600 text-sm bg-red-50 p-4 rounded-xl border-2 border-red-200 font-semibold">
+                    {fieldWarning}
+                  </div>
+                )}
+                
+                <div>
+                  <label className="block font-black mb-3 text-black text-lg">Full Name *</label>
+                  <input 
+                    name="name" 
+                    type="text" 
+                    value={form.name} 
+                    onChange={handleFormChange} 
+                    required 
+                    className="w-full border-2 border-gray-300 px-4 py-4 rounded-xl focus:border-black focus:outline-none transition-colors font-semibold text-lg" 
+                    placeholder="Enter your full name"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block font-black mb-3 text-black text-lg">Email Address *</label>
+                  <input 
+                    name="email" 
+                    type="email" 
+                    value={form.email} 
+                    onChange={handleFormChange} 
+                    required 
+                    className="w-full border-2 border-gray-300 px-4 py-4 rounded-xl focus:border-black focus:outline-none transition-colors font-semibold text-lg" 
+                    placeholder="your.email@example.com"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block font-black mb-3 text-black text-lg">Phone Number</label>
+                  <input 
+                    name="phone" 
+                    type="tel" 
+                    value={form.phone} 
+                    onChange={handleFormChange} 
+                    className="w-full border-2 border-gray-300 px-4 py-4 rounded-xl focus:border-black focus:outline-none transition-colors font-semibold text-lg" 
+                    placeholder="+1 (555) 123-4567"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block font-black mb-3 text-black text-lg">Cover Letter</label>
+                  <textarea 
+                    name="message" 
+                    value={form.message} 
+                    onChange={handleFormChange} 
+                    className="w-full border-2 border-gray-300 px-4 py-4 rounded-xl focus:border-black focus:outline-none transition-colors font-semibold text-lg resize-none" 
+                    rows={4}
+                    placeholder="Tell us why you're interested in this position..."
+                  />
+                </div>
+                
+                <div>
+                  <label className="block font-black mb-3 text-black text-lg">Resume (PDF, max 2MB) *</label>
+                  <div className="flex items-center gap-4">
+                    <button 
+                      type="button" 
+                      onClick={() => fileInputRef.current?.click()} 
+                      className="flex items-center px-6 py-4 bg-gray-100 rounded-xl hover:bg-gray-200 text-black transition-colors border-2 border-gray-300 hover:border-gray-400 font-bold"
+                    >
+                      <Paperclip className="w-5 h-5 mr-2" />
+                      Choose File
+                    </button>
+                    {form.resume && (
+                      <div className="flex items-center text-sm text-green-700 bg-green-50 px-3 py-2 rounded-lg border border-green-200 font-semibold">
+                        <span className="text-green-600 mr-2">✓</span>
+                        {form.resume.name}
+                      </div>
+                    )}
+                  </div>
+                  <input
+                    ref={fileInputRef}
+                    name="resume"
+                    type="file"
+                    accept="application/pdf"
+                    onChange={handleFileChange}
+                    required
+                    className="hidden"
+                  />
+                  {fileError && (
+                    <div className="text-red-600 text-sm mt-3 bg-red-50 p-3 rounded-lg border border-red-200 font-semibold">
+                      {fileError}
+                    </div>
+                  )}
+                </div>
+                
+                <button 
+                  type="button"
+                  onClick={handleFormSubmit}
+                  disabled={formLoading || !!fileError || !form.resume} 
+                  className="w-full bg-black text-white py-4 rounded-xl font-black text-lg hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                >
+                  {formLoading ? 'Submitting...' : 'Submit Application'}
+                </button>
+                
+                {formMsg && (
+                  <div className="text-center text-green-700 bg-green-50 p-4 rounded-xl border-2 border-green-200 font-bold text-lg">
+                    {formMsg}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}
+    </div>
+      
     </AppShell>
   );
 } 
