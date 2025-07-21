@@ -38,10 +38,13 @@ export default function CareerPage() {
   
 
   const handleScrollToOpenings = () => {
-    if (openingsRef.current) {
-      openingsRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const section = document.getElementById('openings');
+  if (section) {
+    const yOffset = -80; // adjust for sticky header height if needed
+    const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+};
 
   const handleOpenModal = (jobTitle: string) => {
     setApplyingJob(jobTitle);
@@ -176,7 +179,7 @@ export default function CareerPage() {
           </p>
           <button
             onClick={handleScrollToOpenings}
-            className="inline-flex items-center px-8 py-4 bg-white text-black font-semibold text-lg rounded-full hover:bg-gray-200 transition-all duration-300 shadow-lg"
+            className="inline-flex items-center px-8 py-4 bg-white text-black font-semibold text-lg rounded-full hover:bg-gray-200 transition-all duration-300 shadow-lg cursor-pointer"
           >
             Current openings &rarr;
           </button>
@@ -187,7 +190,7 @@ export default function CareerPage() {
       <div className="bg-black min-h-screen">
       {/* Current Openings Section */}
       <div className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
+        <div id="openings" className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-16">
             <h2 className="text-5xl md:text-6xl font-black text-white mb-6 tracking-tight">
@@ -249,7 +252,7 @@ export default function CareerPage() {
                     <div className="flex-shrink-0 flex items-center">
                       <button
                         onClick={() => handleOpenModal(job.title)}
-                        className="group/btn relative inline-flex items-center bg-black text-white font-bold px-8 py-4 rounded-full hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 overflow-hidden"
+                        className="group/btn relative inline-flex items-center bg-black text-white font-bold px-8 py-4 rounded-full hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 overflow-hidden cursor-pointer"
                       >
                         {/* Button background animation */}
                         <div className="absolute inset-0 bg-white transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left"></div>

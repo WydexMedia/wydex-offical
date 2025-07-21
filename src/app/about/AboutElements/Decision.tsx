@@ -114,12 +114,45 @@ function Decision() {
                   
                   {/* Action Button */}
                   <div className="text-center">
-                    <button className="inline-flex items-center justify-center px-6 py-3 bg-black text-white font-semibold rounded-full transition-all duration-300 hover:bg-gray-800 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-gray-300 text-sm sm:text-base cursor-pointer">
-                      <span>Learn More</span>
-                      <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </button>
+                    {index === 0 && (
+                      <a
+                        href="https://wa.me/919188380779?text=Hi%2C%20I%20would%20like%20to%20learn%20more%20about%20Google%20Ads."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center px-6 py-3 bg-black text-white font-semibold rounded-full transition-all duration-300 hover:bg-gray-800 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-gray-300 text-sm sm:text-base cursor-pointer"
+                      >
+                        <span>Learn More</span>
+                        <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </a>
+                    )}
+                    {index === 1 && (
+                      <a
+                        href="https://wa.me/919188380779?text=Hi%2C%20I%20would%20like%20to%20learn%20more%20about%20Meta%20Ads."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center px-6 py-3 bg-black text-white font-semibold rounded-full transition-all duration-300 hover:bg-gray-800 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-gray-300 text-sm sm:text-base cursor-pointer"
+                      >
+                        <span>Learn More</span>
+                        <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </a>
+                    )}
+                    {index === 2 && (
+                      <a
+                        href="https://wa.me/919188380779?text=Hi%2C%20I%20would%20like%20to%20learn%20more%20about%20combining%20Google%20and%20Meta%20Ads."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center px-6 py-3 bg-black text-white font-semibold rounded-full transition-all duration-300 hover:bg-gray-800 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-gray-300 text-sm sm:text-base cursor-pointer"
+                      >
+                        <span>Learn More</span>
+                        <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </a>
+                    )}
                   </div>
                   
                   {/* Decorative Elements */}
@@ -145,9 +178,14 @@ function Decision() {
                   </p>
                   
                   <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
-                    <button className="w-full sm:w-auto px-8 py-4 bg-black text-white font-semibold rounded-full transition-all duration-300 hover:bg-gray-800 hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-gray-300 text-base sm:text-lg cursor-pointer">
+                    <a
+                      href="https://wa.me/919188380779?text=Hi%2C%20I%20would%20like%20to%20get%20a%20free%20consultation."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full sm:w-auto px-8 py-4 bg-black text-white font-semibold rounded-full transition-all duration-300 hover:bg-gray-800 hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-gray-300 text-base sm:text-lg cursor-pointer"
+                    >
                       Get Free Consultation
-                    </button>
+                    </a>
                     
                     <button className="w-full sm:w-auto px-8 py-4 bg-transparent text-black font-semibold rounded-full border-2 border-black transition-all duration-300 hover:bg-black hover:text-white hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gray-300 text-base sm:text-lg cursor-pointer">
                       View Case Studies

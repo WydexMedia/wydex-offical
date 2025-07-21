@@ -35,14 +35,24 @@ function BottomSec() {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
-          <button className="group px-10 py-4 bg-black text-white rounded-full font-semibold text-lg transition-all duration-300 hover:bg-gray-800 hover:shadow-2xl hover:-translate-y-2 transform relative overflow-hidden cursor-pointer">
+          <a
+            href="https://wa.me/919188380779?text=Hi%2C%20I%20would%20like%20to%20contact%20you%20or%20get%20a%20call%20from%20you."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group px-10 py-4 bg-black text-white rounded-full font-semibold text-lg transition-all duration-300 hover:bg-gray-800 hover:shadow-2xl hover:-translate-y-2 transform relative overflow-hidden cursor-pointer"
+          >
             <span className="relative z-10">Contact Wydex Media Today</span>
             <div className="absolute inset-0 bg-gradient-to-r from-gray-800 to-black opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </button>
+          </a>
           
-          <button className="group px-10 py-4 bg-transparent text-black rounded-full border-2 border-black font-semibold text-lg transition-all duration-300 hover:bg-black hover:text-white hover:-translate-y-2 transform cursor-pointer">
+          <a
+            href="https://wa.me/919188380779?text=Hi%2C%20I%20am%20interested%20to%20learn%20more%20about%20your%20services."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group px-10 py-4 bg-transparent text-black rounded-full border-2 border-black font-semibold text-lg transition-all duration-300 hover:bg-black hover:text-white hover:-translate-y-2 transform cursor-pointer"
+          >
             <span className="relative z-10">Learn More</span>
-          </button>
+          </a>
         </div>
 
         {/* Stats/Features Grid */}
@@ -77,13 +87,27 @@ function BottomSec() {
           <div className="bg-gray-50 border-2 border-gray-200 rounded-2xl p-8 text-center hover:border-black transition-colors duration-300">
             <h3 className="text-2xl font-bold mb-4">Ready to Start?</h3>
             <p className="text-gray-600 mb-4">Get your free consultation and campaign audit</p>
-            <span className="text-black font-semibold">📞 Call us today!</span>
+            <a
+              href="https://wa.me/919188380779?text=Hi%2C%20I%20would%20like%20to%20get%20a%20free%20consultation."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-2 px-6 py-3 bg-black text-white rounded-full font-semibold text-lg hover:bg-gray-800 transition-all duration-300 cursor-pointer"
+            >
+              Get Free Consultation
+            </a>
           </div>
           
           <div className="bg-black text-white rounded-2xl p-8 text-center hover:bg-gray-800 transition-colors duration-300">
             <h3 className="text-2xl font-bold mb-4">Need More Info?</h3>
             <p className="text-gray-300 mb-4">Download our free digital marketing guide</p>
-            <span className="text-white font-semibold">📧 Get the guide</span>
+            <a
+              href="https://wa.me/919188380779?text=Hi%2C%20I%20would%20like%20to%20get%20started%20with%20Wydex%20Media."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-2 px-6 py-3 bg-white text-black rounded-full font-semibold text-lg hover:bg-gray-200 transition-all duration-300 cursor-pointer"
+            >
+              Get Started Today
+            </a>
           </div>
         </div>
       </div>
