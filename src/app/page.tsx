@@ -4,6 +4,7 @@ import Index from "./Home/Home";
 import AppShell from "./AppShell";
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from 'next/navigation';
+import SkeletonHome from "./components/SkeltonHome";
 
 function EnquiryForm({ onSuccess }: { onSuccess?: () => void }) {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
@@ -95,7 +96,7 @@ function HomePageContent() {
 
 export default function HomePage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<SkeletonHome />}>
       <HomePageContent />
     </Suspense>
   );
