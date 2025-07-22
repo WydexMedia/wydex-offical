@@ -97,11 +97,11 @@ function VideoAnimation() {
             loop
             muted
             playsInline
-            poster='https://res.cloudinary.com/dzdtdce9p/video/upload/v1752859868/build_mty7ql.mp4'
+            poster='https://res.cloudinary.com/dzdtdce9p/video/upload/v1753197926/strategy_uuvy8m.mp4'
             className='absolute inset-0 w-full h-full object-cover z-0 transition-all duration-[2000ms] ease-out'
             style={sectionVisibility.design ? getVideoTransform(0) : { opacity: 0, transform: 'scale(0.8) translateY(100px)' }}
           >
-            <source src='https://res.cloudinary.com/dzdtdce9p/video/upload/v1752859868/build_mty7ql.mp4' type='video/mp4' />
+            <source src='https://res.cloudinary.com/dzdtdce9p/video/upload/v1753197926/strategy_uuvy8m.mp4' type='video/mp4' />
             Your browser does not support the video tag.
           </video>
         </div>
