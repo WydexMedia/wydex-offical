@@ -31,7 +31,7 @@ export default function Clients() {
             Clients
           </h2>
           <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Our clients are everything to us; so are we to them.
+            Our clients are everything to us; so are we to them — the best marketing agency in Calicut.
           </p>
         </div>
 

@@ -31,7 +31,7 @@ const services = [
 {
   no: 4,
   title: 'Branding & Strategy',
-  description: 'We craft powerful brand identities and strategic roadmaps that resonate with your audience. From logo design to brand positioning, we ensure consistency, clarity, and creativity across all channels to drive lasting impact.',
+  description: 'We craft powerful brand identities and strategic roadmaps that resonate with your audience. From logo design to brand positioning, we ensure consistency, clarity, and creativity across all channels to drive lasting impact — as a top performance marketing agency in Calicut.',
   icon: <Target className="w-12 h-12" />,
   features: [],
 },

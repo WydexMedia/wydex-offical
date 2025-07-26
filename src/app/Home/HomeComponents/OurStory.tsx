@@ -50,7 +50,7 @@ const OurStory: React.FC = () => {
         <div className="space-y-6 md:ml-[100px]">
           <h2 className="text-4xl font-bold text-white">Our Story</h2>
           <p className="text-lg text-gray-300 leading-relaxed">
-            Wydex Media is the best digital marketing agency in Calicut, offering 360-degree marketing strategies that cover everything from social media and SEO to branding, design, and paid ads. We focus on simplicity, consistency, and real results — helping your brand grow and succeed online.
+          Wydex Media is the best digital marketing agency in Calicut, a leading performance marketing agency offering 360-degree strategies covering social media, SEO, branding, design, and paid ads. We focus on simplicity, consistency, and real results — helping your brand grow and succeed online.
           </p>
           <button
             className="learn-more group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-400/40 rounded-xl text-white text-lg font-medium hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-400/60 transition-all duration-500 backdrop-blur-sm shadow-lg shadow-purple-400/20 hover:shadow-purple-400/30 transform hover:scale-105"

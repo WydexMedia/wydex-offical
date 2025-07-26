@@ -117,7 +117,7 @@ function VideoAnimation() {
                 <span className="relative z-10">Strategy</span>
               </h3>
               <p className="text-lg sm:text-xl md:text-2xl text-blue-200 max-w-3xl mx-auto mb-8 leading-relaxed transition-all duration-1000 ease-out" style={{ transitionDelay: '0.3s' }}>
-                Crafting data-driven marketing roadmaps to position brands uniquely and achieve measurable business objectives effectively.
+              Crafting data-driven marketing roadmaps to position brands uniquely and achieve business goals effectively. A top Performance Marketing Agency.
               </p>
               <a
                 href="#"
@@ -166,7 +166,7 @@ function VideoAnimation() {
                 <div className="absolute -inset-1 bg-gradient-to-r from-green-400/10 to-teal-400/10 blur-lg opacity-30 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
               </h3>
               <p className="text-lg sm:text-xl md:text-2xl text-green-200 max-w-3xl mx-auto mb-8 leading-relaxed transition-all duration-1000 ease-out" style={{ transitionDelay: '0.3s' }}>
-                Implementing targeted campaigns with precision, creativity, and consistency across digital platforms to maximize brand visibility.              </p>
+               Implementing targeted campaigns with precision, creativity, and consistency across digital platforms to grow with the best digital marketing agency in Calicut.</p>
               <a
                 href="#"
                 className="learn-more group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-600/20 to-teal-600/20 border border-green-400/40 rounded-xl text-white text-lg font-medium hover:from-green-500/30 hover:to-teal-500/30 hover:border-green-400/60 transition-all duration-500 backdrop-blur-sm shadow-lg shadow-green-400/20 hover:shadow-green-400/30 transform hover:scale-105"
@@ -212,7 +212,7 @@ function VideoAnimation() {
                 <span className="relative z-10">Growth</span>
               </h3>
               <p className="text-lg sm:text-xl md:text-2xl text-purple-200 max-w-3xl mx-auto mb-8 leading-relaxed transition-all duration-1000 ease-out" style={{ transitionDelay: '0.3s' }}>
-                Driving continuous brand engagement, lead generation, and revenue through optimized strategies and performance-focused digital solutions.              </p>
+              Driving continuous brand engagement, lead generation, and revenue through optimized strategies from the best digital marketing agency in Calicut.              </p>
               <a
                 href="#"
                 className="learn-more group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-400/40 rounded-xl text-white text-lg font-medium hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-400/60 transition-all duration-500 backdrop-blur-sm shadow-lg shadow-purple-400/20 hover:shadow-purple-400/30 transform hover:scale-105"

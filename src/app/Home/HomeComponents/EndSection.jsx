@@ -35,7 +35,7 @@ const EndSection = () => {
             </h1>
             
             <p className="text-xl text-gray-700 leading-relaxed max-w-lg">
-              At <span className="font-semibold text-black">WYDEX</span>, we are all about creating a habitat that lets you grow stronger roots and larger branches. Together let's make a fruitful journey!
+              At <span className="font-semibold text-black">WYDEX</span>,we are all about creating a habitat that lets you grow stronger roots and larger branches. Together, let's make a fruitful journey with the best marketing agency in Calicut!
             </p>
           </div>
 
