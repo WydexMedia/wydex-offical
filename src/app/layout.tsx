@@ -15,8 +15,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Wydex media",
-  description: "Best digital marketing agency in calicut",
+  title: "Best digital marketing agency in Calicut | advertising agency in Calicut",
+  description: "Wydex Media is the best digital marketing agency in Calicut and a top advertising agency in Calicut, delivering creative, ROI-driven marketing solutions.",
+  alternates: {
+    canonical: "https://wydexmedia.com",
+  },
 };
 
 export default function RootLayout({children}: Readonly<{ children: React.ReactNode;}>) {
