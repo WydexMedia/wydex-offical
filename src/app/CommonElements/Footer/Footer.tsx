@@ -32,7 +32,7 @@ function FooterPage() {
             </div>
 
             <p className="text-gray-400 text-base leading-relaxed text-center">
-              Driving growth through creative marketing and technology solutions tailored for your success.
+              As the best digital marketing agency in Calicut, we drive growth through creative marketing and technology solutions tailored for your success.
             </p>
 
             <div className="flex justify-center space-x-6 pt-4">
