@@ -3,8 +3,8 @@ import { MongoClient } from 'mongodb';
 import bcrypt from 'bcryptjs';
 
 const uri = process.env.MONGODB_URI as string;
-const ADMIN_USERNAME = 'admin';
-const ADMIN_PASSWORD = 'admin@Wydexmedia698';
+const ADMIN_USERNAME = 'hr@wydexmedia.com';
+const ADMIN_PASSWORD = 'Wydexmedia@2025';
 
 async function seed() {
   if (!uri) throw new Error('MONGODB_URI not set');

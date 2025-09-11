@@ -34,7 +34,7 @@
     "src/**/*" // ← include everything under src
     ,
     ".next/types/**/*.ts"
-  ],
+, "seed.ts"  ],
   "exclude": [
     "node_modules"
   ]
