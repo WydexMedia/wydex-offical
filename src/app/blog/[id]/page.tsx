@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { headers } from 'next/headers';
 import Image from 'next/image';
+import Footer from '../../CommonElements/Footer/Footer';
 
 interface Blog {
   _id: string;
@@ -31,27 +32,30 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ id:
   if (!blog) return notFound();
 
   return (
-    <main className="max-w-3xl mx-auto py-12 px-4">
-      <h1 className="text-4xl font-bold mb-4">{blog.title}</h1>
-      <div className="flex items-center text-gray-500 text-sm mb-6">
-        <span>By {blog.author || 'Admin'}</span>
-        <span className="mx-2">|</span>
-        <span>{blog.createdAt ? new Date(blog.createdAt).toLocaleDateString() : ''}</span>
-      </div>
-      {blog.image && (
-        <Image 
-          src={blog.image} 
-          alt={blog.title} 
-          width={800} 
-          height={256} 
-          className="w-full h-64 object-cover rounded mb-6" 
+    <>
+      <main className="max-w-3xl mx-auto py-12 px-4">
+        <h1 className="text-4xl font-bold mb-4">{blog.title}</h1>
+        <div className="flex items-center text-gray-500 text-sm mb-6">
+          <span>By {blog.author || 'Admin'}</span>
+          <span className="mx-2">|</span>
+          <span>{blog.createdAt ? new Date(blog.createdAt).toLocaleDateString() : ''}</span>
+        </div>
+        {blog.image && (
+          <Image 
+            src={blog.image} 
+            alt={blog.title} 
+            width={800} 
+            height={256} 
+            className="w-full h-64 object-cover rounded mb-6" 
+          />
+        )}
+        <p className="text-lg text-gray-700 mb-6">{blog.description}</p>
+        <article
+          className="prose prose-lg max-w-none"
+          dangerouslySetInnerHTML={{ __html: blog.content }}
         />
-      )}
-      <p className="text-lg text-gray-700 mb-6">{blog.description}</p>
-      <article
-        className="prose prose-lg max-w-none"
-        dangerouslySetInnerHTML={{ __html: blog.content }}
-      />
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }

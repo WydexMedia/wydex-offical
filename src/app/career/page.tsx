@@ -15,7 +15,6 @@ type Job = {
 
 
 export default function CareerPage() {
-  const openingsRef = useRef<HTMLDivElement>(null);
   const [jobs, setJobs] = useState<Job[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [applyingJob, setApplyingJob] = useState<string | null>(null);
@@ -38,10 +37,13 @@ export default function CareerPage() {
   
 
   const handleScrollToOpenings = () => {
-    if (openingsRef.current) {
-      openingsRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const section = document.getElementById('openings');
+  if (section) {
+    const yOffset = -80; // adjust for sticky header height if needed
+    const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+};
 
   const handleOpenModal = (jobTitle: string) => {
     setApplyingJob(jobTitle);
@@ -80,22 +82,49 @@ export default function CareerPage() {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormMsg('');
-    if (!form.name.trim() || !form.email.trim() || !form.message.trim() || !form.resume) {
-      setFieldWarning('Please fill out all required fields and upload your resume.');
+    if (!form.name.trim()) {
+      setFieldWarning('Please enter your full name.');
+      return;
+    }
+    if (!form.email.trim()) {
+      setFieldWarning('Please enter your email address.');
+      return;
+    }
+    if (!form.message.trim()) {
+      setFieldWarning('Please enter a cover letter.');
+      return;
+    }
+    if (!form.resume) {
+      setFieldWarning('Please upload your resume (PDF).');
       return;
     }
     setFormLoading(true);
-    const formData = new FormData();
-    formData.append('name', form.name);
-    formData.append('email', form.email);
-    formData.append('phone', form.phone);
-    formData.append('message', form.message);
-    formData.append('resume', form.resume!);
-    formData.append('jobRole', applyingJob || '');
     try {
+      // 1. Get presigned URL
+      const presignRes = await fetch('/api/s3/resume-upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: form.resume.name, contentType: form.resume.type }),
+      });
+      const { url, key } = await presignRes.json();
+      // 2. Upload file to S3
+      await fetch(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': form.resume.type },
+        body: form.resume,
+      });
+      // 3. Submit application with S3 key
       const res = await fetch('/api/career/apply', {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          message: form.message,
+          jobRole: applyingJob,
+          resume: key,
+        }),
       });
       const data: { success: boolean; message?: string } = await res.json();
       if (data.success) {
@@ -149,7 +178,7 @@ export default function CareerPage() {
           </p>
           <button
             onClick={handleScrollToOpenings}
-            className="inline-flex items-center px-8 py-4 bg-white text-black font-semibold text-lg rounded-full hover:bg-gray-200 transition-all duration-300 shadow-lg"
+            className="inline-flex items-center px-8 py-4 bg-white text-black font-semibold text-lg rounded-full hover:bg-gray-200 transition-all duration-300 shadow-lg cursor-pointer"
           >
             Current openings &rarr;
           </button>
@@ -160,7 +189,7 @@ export default function CareerPage() {
       <div className="bg-black min-h-screen">
       {/* Current Openings Section */}
       <div className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
+        <div id="openings" className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-16">
             <h2 className="text-5xl md:text-6xl font-black text-white mb-6 tracking-tight">
@@ -222,7 +251,7 @@ export default function CareerPage() {
                     <div className="flex-shrink-0 flex items-center">
                       <button
                         onClick={() => handleOpenModal(job.title)}
-                        className="group/btn relative inline-flex items-center bg-black text-white font-bold px-8 py-4 rounded-full hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 overflow-hidden"
+                        className="group/btn relative inline-flex items-center bg-black text-white font-bold px-8 py-4 rounded-full hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 overflow-hidden cursor-pointer"
                       >
                         {/* Button background animation */}
                         <div className="absolute inset-0 bg-white transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left"></div>
@@ -261,11 +290,6 @@ export default function CareerPage() {
               
               {/* Application Form */}
               <div className="space-y-6">
-                {fieldWarning && (
-                  <div className="text-red-600 text-sm bg-red-50 p-4 rounded-xl border-2 border-red-200 font-semibold">
-                    {fieldWarning}
-                  </div>
-                )}
                 
                 <div>
                   <label className="block font-black mb-3 text-black text-lg">Full Name *</label>
@@ -351,14 +375,21 @@ export default function CareerPage() {
                   )}
                 </div>
                 
-                <button 
-                  type="button"
-                  onClick={handleFormSubmit}
-                  disabled={formLoading || !!fileError || !form.resume} 
-                  className="w-full bg-black text-white py-4 rounded-xl font-black text-lg hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
-                >
-                  {formLoading ? 'Submitting...' : 'Submit Application'}
-                </button>
+                <div className="space-y-2">
+                  {fieldWarning && (
+                    <div className="text-red-600 text-sm bg-red-50 p-4 rounded-xl border-2 border-red-200 font-semibold">
+                      {fieldWarning}
+                    </div>
+                  )}
+                  <button 
+                    type="button"
+                    onClick={handleFormSubmit}
+                    disabled={formLoading || !!fileError || !form.resume} 
+                    className="w-full bg-black text-white py-4 rounded-xl font-black text-lg hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                  >
+                    {formLoading ? 'Submitting...' : 'Submit Application'}
+                  </button>
+                </div>
                 
                 {formMsg && (
                   <div className="text-center text-green-700 bg-green-50 p-4 rounded-xl border-2 border-green-200 font-bold text-lg">

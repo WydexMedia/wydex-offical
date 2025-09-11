@@ -2,6 +2,7 @@
 import React from 'react';
 import { Phone, Mail, MessageCircle, Linkedin, Instagram, Facebook } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 function FooterPage() {
   return (
@@ -31,7 +32,7 @@ function FooterPage() {
             </div>
 
             <p className="text-gray-400 text-base leading-relaxed text-center">
-              Driving growth through creative marketing and technology solutions tailored for your success.
+              As the best digital marketing agency in Calicut, we drive growth through creative marketing and technology solutions tailored for your success.
             </p>
 
             <div className="flex justify-center space-x-6 pt-4">
@@ -72,15 +73,12 @@ function FooterPage() {
               Company
             </h3>
             <div className="space-y-3">
-              {['About', 'Services', 'Industries', 'Works', 'Careers', 'Contact'].map((item) => (
-                <a
-                  key={item}
-                  href="#"
-                  className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base"
-                >
-                  {item}
-                </a>
-              ))}
+              <Link href="/about" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">About</Link>
+              <Link href="/#services" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Services</Link>
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Industries</Link>
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Works</Link>
+              <Link href="/career" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Careers</Link>
+              <Link href="/contact" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Contact</Link>
             </div>
           </div>
 
@@ -90,15 +88,12 @@ function FooterPage() {
               Services
             </h3>
             <div className="space-y-3">
-              {['Branding', 'Experience Design', 'Technology', 'Digital Marketing', 'Resource Augmentation', 'Partnership'].map((item) => (
-                <a
-                  key={item}
-                  href="#"
-                  className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base"
-                >
-                  {item}
-                </a>
-              ))}
+              <Link href="/blog/687bf922b20248e47a5e4fa4/" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Branding</Link>
+              <Link href="/blog/687bff287c583f346bd03604/" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Experience Design</Link>
+              <Link href="/blog/687dd90b7c583f346bd03609/" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Technology</Link>
+              <Link href="/blog/687bff8f7c583f346bd03606/" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Digital Marketing</Link>
+              <Link href="/blog/687bffae7c583f346bd03607/" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Resource Augmentation</Link>
+              <Link href="/blog/687bffc37c583f346bd03608/" className="block text-gray-300 hover:text-blue-400 transition-all duration-300 hover:translate-x-1 text-base">Partnership</Link>
             </div>
           </div>
 
@@ -137,9 +132,13 @@ function FooterPage() {
               <span className="text-blue-400 font-bold">WYDEX</span> © 2025 All rights reserved
             </div>
             <div className="flex space-x-8 text-base">
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Privacy Policy</a>
+              <a href="/privacy-policy" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-1">
+                Privacy Policy
+              </a>
               <span className="text-gray-600">•</span>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Terms & Conditions</a>
+              <a href="/terms-and-conditions" className="text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-1">
+                Terms & Conditions
+              </a>
             </div>
           </div>
         </div>

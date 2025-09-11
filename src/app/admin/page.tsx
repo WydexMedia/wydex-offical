@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Calendar, Download, Edit2, Filter, Plus, Search, Trash2, X, Eye, EyeOff } from 'lucide-react';
+import Image from 'next/image';
 const BlogEditor = dynamic(() => import('./BlogEditor'), { ssr: false });
 
 // Define proper interfaces instead of using 'any'
@@ -300,6 +301,17 @@ export default function AdminPage() {
     }
   };
 
+  // Download resume from S3
+  const handleDownloadResume = async (key: string) => {
+    const res = await fetch('/api/s3/resume-download', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key }),
+    });
+    const { url } = await res.json();
+    window.open(url, '_blank');
+  };
+
   const tabs = [
     { id: 'jobs', label: 'Jobs', count: jobs.length },
     { id: 'applications', label: 'Applications', count: applications.length },
@@ -549,15 +561,13 @@ export default function AdminPage() {
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <a
-                            href={app.resume}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                          <button
+                            onClick={() => handleDownloadResume(app.resume)}
                             className="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-black hover:text-white transition-colors duration-200 text-sm font-medium"
                           >
                             <Download className="w-3 h-3 mr-1" />
                             Download
-                          </a>
+                          </button>
                         </td>
                       </tr>
                     ))}
@@ -755,10 +765,11 @@ export default function AdminPage() {
                     <div className="flex items-start justify-between">
                       <div className="flex space-x-4 flex-1">
                         {blog.image && (
-                          <img
+                          <Image
                             src={blog.image}
                             alt="Blog"
-                            className="w-24 h-16 object-cover rounded-lg"
+                            width={100}
+                            height={60}
                           />
                         )}
                         <div className="flex-1">

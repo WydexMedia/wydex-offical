@@ -18,7 +18,7 @@ function Header() {
         router.push('/works');
         break;
       case 'Services':
-        router.push('/');
+        router.push('/#services');
         break;
       // case 'Industries':
       //   router.push('/industries');

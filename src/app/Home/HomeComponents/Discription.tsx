@@ -17,7 +17,7 @@ function Discription() {
   }, []);
 
   const text =
-    `" We are a passionate team in Calicut helping businesses grow through creative, result-driven digital marketing. "`;
+    `"We are a passionate team in Calicut helping businesses grow through creative, result-driven strategies. Recognized as the best digital marketing agency in Calicut, we deliver measurable success for every brand we work with."`;
   const words = text.split(' ');
 
   // Define animation range

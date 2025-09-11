@@ -64,8 +64,7 @@ function BottomBar() {
             </span>
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Stay ahead of the curve with our expert insights, industry trends, and actionable strategies
-            to elevate your digital marketing game.
+          Stay ahead of the curve with our expert insights, industry trends, and actionable strategies from the best marketing agency in Calicut to elevate your digital marketing game.
           </p>
         </div>
 
