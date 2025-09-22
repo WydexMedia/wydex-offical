@@ -1,6 +1,5 @@
 import 'dotenv/config';
 import { MongoClient } from 'mongodb';
-import bcrypt from 'bcryptjs';
 
 const uri = process.env.MONGODB_URI as string;
 const ADMIN_USERNAME = 'hr@wydexmedia.com';
@@ -10,24 +9,24 @@ async function seed() {
   if (!uri) throw new Error('MONGODB_URI not set');
   const client = new MongoClient(uri);
   await client.connect();
-  const db = client.db();
-  const users = db.collection('users');
+  // Use the 'wydexmedia' database and 'admin' collection
+  const db = client.db('wydexmedia');
+  const adminCollection = db.collection('admin');
 
-  const existing = await users.findOne({ username: ADMIN_USERNAME });
-  const hashed = await bcrypt.hash(ADMIN_PASSWORD, 10);
+  const existing = await adminCollection.findOne({ username: ADMIN_USERNAME });
   if (existing) {
-    await users.updateOne(
+    await adminCollection.updateOne(
       { username: ADMIN_USERNAME },
-      { $set: { password: hashed, role: 'admin', createdAt: new Date() } }
+      { $set: { password: ADMIN_PASSWORD, role: 'admin', createdAt: new Date() } }
     );
     console.log('Admin user password updated.');
     await client.close();
     return;
   }
 
-  await users.insertOne({ username: ADMIN_USERNAME, password: hashed, role: 'admin', createdAt: new Date() });
+  await adminCollection.insertOne({ username: ADMIN_USERNAME, password: ADMIN_PASSWORD, role: 'admin', createdAt: new Date() });
   console.log('Admin user seeded.');
   await client.close();
 }
 
-seed().catch(e => { console.error(e); process.exit(1); }); 
+seed().catch(e => { console.error(e); process.exit(1); });

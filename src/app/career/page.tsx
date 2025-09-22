@@ -2,7 +2,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import AppShell from "../AppShell";
 import { Briefcase, MapPin, Users, ArrowRight, X, Paperclip } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { showToast } from '@/lib/toast';
 type Job = {
   _id: string;
   title: string;
@@ -24,6 +24,7 @@ export default function CareerPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fileError, setFileError] = useState('');
   const [fieldWarning, setFieldWarning] = useState('');
+  const [expandedJobs, setExpandedJobs] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetchJobs();
@@ -33,6 +34,21 @@ export default function CareerPage() {
     const res = await fetch('/api/admin/jobs');
     const data: Job[] = await res.json();
     setJobs(data);
+  };
+
+  const toggleJobExpansion = (jobId: string) => {
+    const newExpandedJobs = new Set(expandedJobs);
+    if (newExpandedJobs.has(jobId)) {
+      newExpandedJobs.delete(jobId);
+    } else {
+      newExpandedJobs.add(jobId);
+    }
+    setExpandedJobs(newExpandedJobs);
+  };
+
+  const truncateDescription = (description: string, maxLength: number = 150) => {
+    if (description.length <= maxLength) return description;
+    return description.substring(0, maxLength) + '...';
   };
   
 
@@ -129,16 +145,16 @@ export default function CareerPage() {
       const data: { success: boolean; message?: string } = await res.json();
       if (data.success) {
         setFormMsg('Application submitted!');
-        toast.success('Application submitted successfully!');
+        showToast.success('Application Submitted!', 'Your application has been submitted successfully');
         setTimeout(() => handleCloseModal(), 1500);
       } else {
         setFormMsg(data.message || 'Submission failed.');
-        toast.error(data.message || 'Submission failed.');
+        showToast.error('Submission Failed', data.message || 'An error occurred during submission');
       }
     } catch (err) {
       console.error(err);
       setFormMsg('Submission failed.');
-      toast.error('Submission failed.');
+      showToast.error('Submission Failed', 'An error occurred. Please try again.');
     }
     setFormLoading(false);
   };
@@ -242,9 +258,20 @@ export default function CareerPage() {
                       </div>
                       
                       {/* Job Description */}
-                      <p className="text-gray-700 text-lg leading-relaxed font-medium">
-                        {job.description}
-                      </p>
+                      <div className="text-gray-700 text-lg leading-relaxed font-medium">
+                        <p>
+                          {expandedJobs.has(job._id) ? job.description : truncateDescription(job.description)}
+                        </p>
+                        {job.description.length > 150 && (
+                          <button
+                            onClick={() => toggleJobExpansion(job._id)}
+                            className="text-black font-bold hover:text-gray-600 transition-colors duration-200 mt-2 inline-flex items-center gap-1"
+                          >
+                            {expandedJobs.has(job._id) ? 'See Less' : 'See More'}
+                            <ArrowRight className={`w-4 h-4 transition-transform duration-200 ${expandedJobs.has(job._id) ? 'rotate-90' : ''}`} />
+                          </button>
+                        )}
+                      </div>
                     </div>
                     
                     {/* Apply Button */}
