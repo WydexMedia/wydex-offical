@@ -149,7 +149,7 @@ export default function AdminPage() {
         setError(data.message || 'Login failed');
         showToast.error('Login Failed', data.message || 'Invalid credentials');
       }
-    } catch (error) {
+    } catch {
       showToast.error('Login Failed', 'An error occurred during login');
     }
   };
@@ -185,7 +185,7 @@ export default function AdminPage() {
         setJobMsg(data.message || 'Error adding job');
         showToast.error('Failed to Add Job', data.message || 'An error occurred');
       }
-    } catch (error) {
+    } catch {
       showToast.error('Failed to Add Job', 'An error occurred while adding the job');
     }
   };
@@ -230,7 +230,7 @@ export default function AdminPage() {
       } else {
         showToast.error('Failed to Update Job', data.message || 'An error occurred');
       }
-    } catch (error) {
+    } catch {
       showToast.error('Failed to Update Job', 'An error occurred while updating the job');
     }
   };
@@ -256,7 +256,7 @@ export default function AdminPage() {
       } else {
         showToast.error('Failed to Delete Job', data.message || 'An error occurred');
       }
-    } catch (error) {
+    } catch {
       toast.dismiss(loadingToast);
       showToast.error('Failed to Delete Job', 'An error occurred while deleting the job');
     }
@@ -306,7 +306,7 @@ export default function AdminPage() {
         setBlogMsg(data.message || 'Error adding blog');
         showToast.error('Failed to Publish Blog', data.message || 'An error occurred');
       }
-    } catch (error) {
+    } catch {
       showToast.error('Failed to Publish Blog', 'An error occurred while publishing the blog');
     }
   };
@@ -344,7 +344,7 @@ export default function AdminPage() {
       } else {
         showToast.error('Failed to Update Blog', data.message || 'An error occurred');
       }
-    } catch (error) {
+    } catch {
       showToast.error('Failed to Update Blog', 'An error occurred while updating the blog');
     }
   };
@@ -370,7 +370,7 @@ export default function AdminPage() {
       } else {
         showToast.error('Failed to Delete Blog', data.message || 'An error occurred');
       }
-    } catch (error) {
+    } catch {
       toast.dismiss(loadingToast);
       showToast.error('Failed to Delete Blog', 'An error occurred while deleting the blog');
     }
@@ -409,7 +409,7 @@ export default function AdminPage() {
       } else {
         showToast.error('Failed to Delete Application', data.message || 'An error occurred');
       }
-    } catch (error) {
+    } catch {
       toast.dismiss(loadingToast);
       showToast.error('Failed to Delete Application', 'An error occurred while deleting the application');
     }
