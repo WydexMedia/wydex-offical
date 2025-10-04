@@ -67,6 +67,9 @@ export const metadata: Metadata = {
     follow: true,
     nocache: false,
   },
+  verification: {
+    google: "v_7eHY6c5cj0PoTNK38XyO99nRMW_U9MWTkipmOZGsg",
+  },
   category: "marketing",
 };
 
