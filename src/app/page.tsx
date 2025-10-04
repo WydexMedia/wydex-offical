@@ -5,6 +5,7 @@ import AppShell from "./AppShell";
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from 'next/navigation';
 import SkeletonHome from "./components/SkeltonHome";
+import { showToast } from '@/lib/toast';
 
 function EnquiryForm({ onSuccess }: { onSuccess?: () => void }) {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
@@ -30,13 +31,16 @@ function EnquiryForm({ onSuccess }: { onSuccess?: () => void }) {
       const data = await res.json();
       if (data.success) {
         setSuccess('Submitted!');
+        showToast.success('Enquiry Submitted!', 'Your enquiry has been submitted successfully');
         if (onSuccess) onSuccess();
       } else {
         setError(data.message || 'Submission failed');
+        showToast.error('Submission Failed', data.message || 'An error occurred during submission');
       }
     } catch (err) {
       console.error(err);
       setError('Submission failed. Please try again later.');
+      showToast.error('Submission Failed', 'An error occurred. Please try again later.');
     }
     setLoading(false);
   };

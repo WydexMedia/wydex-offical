@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Calendar, Download, Edit2, Filter, Plus, Search, Trash2, X, Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
+import { showToast } from '@/lib/toast';
+import { toast } from 'sonner';
 const BlogEditor = dynamic(() => import('./BlogEditor'), { ssr: false });
 
 // Define proper interfaces instead of using 'any'
@@ -69,6 +71,7 @@ export default function AdminPage() {
   // Applications - Replace any[] with Application[]
   const [applications, setApplications] = useState<Application[]>([]);
   const [appFilter, setAppFilter] = useState('');
+  const [deleteAppId, setDeleteAppId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'jobs' | 'applications' | 'enquiries' | 'blogs'>('jobs');
 
   // Blog state - Replace any[] with Blog[]
@@ -130,44 +133,60 @@ export default function AdminPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    const res = await fetch('/api/admin/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
-    const data = await res.json();
-    if (data.success) {
-      setLoggedIn(true);
-    } else {
-      setError(data.message || 'Login failed');
+    
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        setLoggedIn(true);
+        showToast.success('Welcome back!', 'Successfully logged in');
+      } else {
+        setError(data.message || 'Login failed');
+        showToast.error('Login Failed', data.message || 'Invalid credentials');
+      }
+    } catch {
+      showToast.error('Login Failed', 'An error occurred during login');
     }
   };
 
   const handleAddJob = async (e: React.FormEvent) => {
     e.preventDefault();
     setJobMsg('');
-    const res = await fetch('/api/admin/jobs', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title: jobTitle,
-        description: jobDesc,
-        type: jobType,
-        location: jobLocation,
-        department: jobDepartment
-      })
-    });
-    const data = await res.json();
-    if (data.success) {
-      setJobMsg('Job added!');
-      setJobTitle('');
-      setJobDesc('');
-      setJobType('');
-      setJobLocation('');
-      setJobDepartment('');
-      fetchJobs();
-    } else {
-      setJobMsg(data.message || 'Error adding job');
+    
+    try {
+      const res = await fetch('/api/admin/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: jobTitle,
+          description: jobDesc,
+          type: jobType,
+          location: jobLocation,
+          department: jobDepartment
+        })
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        setJobMsg('Job added!');
+        setJobTitle('');
+        setJobDesc('');
+        setJobType('');
+        setJobLocation('');
+        setJobDepartment('');
+        fetchJobs();
+        showToast.success('Job Added!', 'New position has been created successfully');
+      } else {
+        setJobMsg(data.message || 'Error adding job');
+        showToast.error('Failed to Add Job', data.message || 'An error occurred');
+      }
+    } catch {
+      showToast.error('Failed to Add Job', 'An error occurred while adding the job');
     }
   };
 
@@ -183,40 +202,63 @@ export default function AdminPage() {
   const handleEditSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editJob) return;
-    const res = await fetch('/api/admin/jobs', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        id: editJob._id,
-        title: editTitle,
-        description: editDesc,
-        type: jobType,
-        location: jobLocation,
-        department: jobDepartment
-      })
-    });
-    const data = await res.json();
-    if (data.success) {
-      setEditJob(null);
-      setEditTitle('');
-      setEditDesc('');
-      setJobType('');
-      setJobLocation('');
-      setJobDepartment('');
-      fetchJobs();
+    
+    try {
+      const res = await fetch('/api/admin/jobs', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: editJob._id,
+          title: editTitle,
+          description: editDesc,
+          type: jobType,
+          location: jobLocation,
+          department: jobDepartment
+        })
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        setEditJob(null);
+        setEditTitle('');
+        setEditDesc('');
+        setJobType('');
+        setJobLocation('');
+        setJobDepartment('');
+        fetchJobs();
+        showToast.success('Job Updated!', 'Position has been updated successfully');
+      } else {
+        showToast.error('Failed to Update Job', data.message || 'An error occurred');
+      }
+    } catch {
+      showToast.error('Failed to Update Job', 'An error occurred while updating the job');
     }
   };
 
   const handleDeleteJob = async (id: string) => {
-    const res = await fetch('/api/admin/jobs', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id })
-    });
-    const data = await res.json();
-    if (data.success) {
-      setDeleteJobId(null);
-      fetchJobs();
+    const loadingToast = showToast.loading('Deleting job position...');
+    
+    try {
+      const res = await fetch('/api/admin/jobs', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      });
+      const data = await res.json();
+      
+      // Always dismiss the loading toast
+      toast.dismiss(loadingToast);
+      
+      if (data.success) {
+        setDeleteJobId(null);
+        fetchJobs();
+        showToast.success('Job Deleted!', 'Position has been removed successfully');
+      } else {
+        showToast.error('Failed to Delete Job', data.message || 'An error occurred');
+      }
+    } catch {
+      toast.dismiss(loadingToast);
+      showToast.error('Failed to Delete Job', 'An error occurred while deleting the job');
     }
   };
 
@@ -239,24 +281,33 @@ export default function AdminPage() {
 
     if (!blogTitle.trim() || !blogDesc.trim() || isContentEmpty(blogContent)) {
       setBlogMsg('Please fill in all required fields and add blog content.');
+      showToast.warning('Missing Required Fields', 'Please fill in all required fields and add blog content.');
       return;
     }
-
-    const res = await fetch('/api/blogs', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: blogTitle, description: blogDesc, image: blogImage, content: blogContent })
-    });
-    const data = await res.json();
-    if (data.success) {
-      setBlogMsg('Blog added!');
-      setBlogTitle('');
-      setBlogDesc('');
-      setBlogImage('');
-      setBlogContent('');
-      fetchBlogs();
-    } else {
-      setBlogMsg(data.message || 'Error adding blog');
+    
+    try {
+      const res = await fetch('/api/blogs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: blogTitle, description: blogDesc, image: blogImage, content: blogContent })
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        setBlogMsg('Blog added!');
+        setBlogTitle('');
+        setBlogDesc('');
+        setBlogImage('');
+        setBlogContent('');
+        setBlogStep(1);
+        fetchBlogs();
+        showToast.success('Blog Published!', 'Your blog post has been published successfully');
+      } else {
+        setBlogMsg(data.message || 'Error adding blog');
+        showToast.error('Failed to Publish Blog', data.message || 'An error occurred');
+      }
+    } catch {
+      showToast.error('Failed to Publish Blog', 'An error occurred while publishing the blog');
     }
   };
 
@@ -271,33 +322,57 @@ export default function AdminPage() {
   const handleEditBlogSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editBlog) return;
-    const res = await fetch('/api/blogs', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: editBlog._id, title: blogTitle, description: blogDesc, image: blogImage, content: blogContent })
-    });
-    const data = await res.json();
-    if (data.success) {
-      setEditBlog(null);
-      setBlogTitle('');
-      setBlogDesc('');
-      setBlogImage('');
-      setBlogContent('');
-      fetchBlogs();
-      setBlogMsg('Blog updated successfully!');
+    
+    try {
+      const res = await fetch('/api/blogs', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: editBlog._id, title: blogTitle, description: blogDesc, image: blogImage, content: blogContent })
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        setEditBlog(null);
+        setBlogTitle('');
+        setBlogDesc('');
+        setBlogImage('');
+        setBlogContent('');
+        setBlogStep(1);
+        fetchBlogs();
+        setBlogMsg('Blog updated successfully!');
+        showToast.success('Blog Updated!', 'Your blog post has been updated successfully');
+      } else {
+        showToast.error('Failed to Update Blog', data.message || 'An error occurred');
+      }
+    } catch {
+      showToast.error('Failed to Update Blog', 'An error occurred while updating the blog');
     }
   };
 
   const handleDeleteBlog = async (id: string) => {
-    const res = await fetch('/api/blogs', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id })
-    });
-    const data = await res.json();
-    if (data.success) {
-      setDeleteBlogId(null);
-      fetchBlogs();
+    const loadingToast = showToast.loading('Deleting blog post...');
+    
+    try {
+      const res = await fetch('/api/blogs', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      });
+      const data = await res.json();
+      
+      // Always dismiss the loading toast
+      toast.dismiss(loadingToast);
+      
+      if (data.success) {
+        setDeleteBlogId(null);
+        fetchBlogs();
+        showToast.success('Blog Deleted!', 'Blog post has been removed successfully');
+      } else {
+        showToast.error('Failed to Delete Blog', data.message || 'An error occurred');
+      }
+    } catch {
+      toast.dismiss(loadingToast);
+      showToast.error('Failed to Delete Blog', 'An error occurred while deleting the blog');
     }
   };
 
@@ -310,6 +385,34 @@ export default function AdminPage() {
     });
     const { url } = await res.json();
     window.open(url, '_blank');
+  };
+
+  // Delete application
+  const handleDeleteApplication = async (id: string) => {
+    const loadingToast = showToast.loading('Deleting application...');
+    
+    try {
+      const res = await fetch('/api/career/applications', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      });
+      const data = await res.json();
+      
+      // Always dismiss the loading toast
+      toast.dismiss(loadingToast);
+      
+      if (data.success) {
+        setDeleteAppId(null);
+        fetchApplications();
+        showToast.success('Application Deleted!', 'Application has been removed successfully');
+      } else {
+        showToast.error('Failed to Delete Application', data.message || 'An error occurred');
+      }
+    } catch {
+      toast.dismiss(loadingToast);
+      showToast.error('Failed to Delete Application', 'An error occurred while deleting the application');
+    }
   };
 
   const tabs = [
@@ -391,7 +494,10 @@ export default function AdminPage() {
               </nav>
             </div>
             <button
-              onClick={() => setLoggedIn(false)}
+              onClick={() => {
+                setLoggedIn(false);
+                showToast.success('Logged Out', 'You have been successfully logged out');
+              }}
               className="px-4 py-2 border cursor-pointer border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors duration-200 font-medium"
             >
               Logout
@@ -561,13 +667,22 @@ export default function AdminPage() {
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <button
-                            onClick={() => handleDownloadResume(app.resume)}
-                            className="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-black hover:text-white transition-colors duration-200 text-sm font-medium"
-                          >
-                            <Download className="w-3 h-3 mr-1" />
-                            Download
-                          </button>
+                          <div className="flex items-center space-x-2">
+                            <button
+                              onClick={() => handleDownloadResume(app.resume)}
+                              className="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-black hover:text-white transition-colors duration-200 text-sm font-medium"
+                            >
+                              <Download className="w-3 h-3 mr-1" />
+                              Download
+                            </button>
+                            <button
+                              onClick={() => setDeleteAppId(app._id)}
+                              className="inline-flex items-center px-3 py-1 bg-red-100 text-red-700 rounded-lg hover:bg-red-600 hover:text-white transition-colors duration-200 text-sm font-medium"
+                            >
+                              <Trash2 className="w-3 h-3 mr-1" />
+                              Delete
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -810,8 +925,8 @@ export default function AdminPage() {
 
       {/* Modals */}
       {editJob && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-          <div className="bg-white rounded-xl shadow-lg w-full max-w-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl shadow-2xl border border-gray-200 w-full max-w-md">
             <div className="flex items-center justify-between p-6 border-b border-gray-100">
               <h2 className="text-xl font-semibold">Edit Position</h2>
               <button
@@ -853,11 +968,11 @@ export default function AdminPage() {
       )}
 
       {deleteJobId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-          <div className="bg-white rounded-xl shadow-lg w-full max-w-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl shadow-2xl border border-gray-200 w-full max-w-sm">
             <div className="p-6">
               <h2 className="text-xl font-semibold mb-4">Delete Position</h2>
-              <p className="text-gray-600 mb-6">Are you sure you want to delete this position? This action cannot be undone.</p>
+              <p className="text-gray-600 mb-6">Are you sure you want to delete this?</p>
               <div className="flex space-x-3">
                 <button
                   onClick={() => setDeleteJobId(null)}
@@ -878,8 +993,8 @@ export default function AdminPage() {
       )}
 
       {deleteBlogId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-          <div className="bg-white rounded-xl shadow-lg w-full max-w-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl shadow-2xl border border-gray-200 w-full max-w-sm">
             <div className="p-6">
               <h2 className="text-xl font-semibold mb-4">Delete Blog</h2>
               <p className="text-gray-600 mb-6">Are you sure you want to delete this blog post? This action cannot be undone.</p>
@@ -892,6 +1007,31 @@ export default function AdminPage() {
                 </button>
                 <button
                   onClick={() => handleDeleteBlog(deleteBlogId)}
+                  className="flex-1 cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors duration-200"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deleteAppId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl shadow-2xl border border-gray-200 w-full max-w-sm">
+            <div className="p-6">
+              <h2 className="text-xl font-semibold mb-4">Delete Application</h2>
+              <p className="text-gray-600 mb-6">Are you sure you want to delete this?</p>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setDeleteAppId(null)}
+                  className="flex-1 cursor-pointer px-4 py-2 border border-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors duration-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleDeleteApplication(deleteAppId)}
                   className="flex-1 cursor-pointer px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors duration-200"
                 >
                   Delete

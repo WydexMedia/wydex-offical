@@ -1,6 +1,7 @@
 'use client'
 import AppShell from "../AppShell";
 import React from "react";
+import { showToast } from '@/lib/toast';
 
 function EnquiryForm({ onSuccess }: { onSuccess?: () => void }) {
   const [form, setForm] = React.useState({ name: '', email: '', phone: '', message: '' });
@@ -18,6 +19,7 @@ function EnquiryForm({ onSuccess }: { onSuccess?: () => void }) {
     e.preventDefault();
     if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
       setFieldWarning('Please fill out all required fields.');
+      showToast.warning('Missing Required Fields', 'Please fill out all required fields.');
       return;
     }
     setLoading(true);
@@ -32,13 +34,16 @@ function EnquiryForm({ onSuccess }: { onSuccess?: () => void }) {
       const data = await res.json();
       if (data.success) {
         setSuccess('Submitted!');
+        showToast.success('Enquiry Submitted!', 'Your enquiry has been submitted successfully');
         if (onSuccess) onSuccess();
       } else {
         setError(data.message || 'Submission failed');
+        showToast.error('Submission Failed', data.message || 'An error occurred during submission');
       }
     } catch (err) {
       console.error(err);
       setError('Submission failed. Please try again later.');
+      showToast.error('Submission Failed', 'An error occurred. Please try again later.');
     }
     setLoading(false);
   };
